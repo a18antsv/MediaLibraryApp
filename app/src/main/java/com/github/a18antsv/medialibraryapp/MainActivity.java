@@ -1,11 +1,13 @@
 package com.github.a18antsv.medialibraryapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), (String) adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, ListContentActivity.class);
+                intent.putExtra("LISTNAME",lists.get(i));
+                startActivity(intent);
             }
         });
 
@@ -62,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
             public void onClick(View view) {
                 if(findViewById(R.id.fragment_addlist_container) != null) {
                     fragmentAddList = new FragmentAddList();
+                    Bundle args = new Bundle();
+                    args.putString("ACTION", "add");
+                    fragmentAddList.setArguments(args);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_addlist_container, fragmentAddList).commit();
                 }
@@ -101,7 +108,16 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
 
         switch(item.getItemId()) {
             case R.id.option_edit:
-
+                if(findViewById(R.id.fragment_addlist_container) != null) {
+                    fragmentAddList = new FragmentAddList();
+                    Bundle args = new Bundle();
+                    args.putString("ACTION", "edit");
+                    args.putString("LISTNAME", listName);
+                    args.putInt("ITEMPOS", (int)(long)info.id);
+                    fragmentAddList.setArguments(args);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_addlist_container, fragmentAddList).commit();
+                }
                 return true;
             case R.id.option_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -130,14 +146,25 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
     }
 
     @Override
-    public void onDataPass(String data) {
+    public void onDataPass(String action, String data, String listName, int itemPos) {
         if(!dbHelper.duplicateData(LIST_TABLE_NAME, LIST_COL_NAME, data)) {
-            if(dbHelper.insertList(data)) {
-                lists.add(data);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "List created!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+            if(action == "add") {
+                if(dbHelper.insertList(data)) {
+                    lists.add(data);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "List created!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No rows affected", Toast.LENGTH_SHORT).show();
+                }
+            } else if(action == "edit") {
+                int updatedRows = dbHelper.updateList(data, listName);
+                if(updatedRows > 0) {
+                    lists.set(itemPos, data);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Successfully updated " + updatedRows + " row(s)", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No rows affected...", Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             Toast.makeText(getApplicationContext(), "Multiple lists cannot have the same name...", Toast.LENGTH_SHORT).show();

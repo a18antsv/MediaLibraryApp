@@ -63,17 +63,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return (result == -1) ? false : true;
     }
 
-    public Cursor getData(String query) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(query, null);
+    public int updateList(String newListName, String oldListName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(LIST_COL_NAME, newListName);
+        return db.update(LIST_TABLE_NAME, values, LIST_COL_NAME + "=?", new String[] {oldListName});
     }
-
-    public Cursor getAllData(String table) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + table, null);
-        return data;
-    }
-
 
     //Update to affect a lists content later
     public int deleteList(String listName) {
@@ -90,5 +85,19 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         c.close();
         return true;
+    }
+
+
+
+
+    public Cursor getData(String query) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getAllData(String table) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + table, null);
+        return data;
     }
 }
