@@ -90,9 +90,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 
-    public Cursor getData(String query) {
+    public Cursor getData(String query, String[] selectionArgs) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(query, null);
+        return db.rawQuery(query, selectionArgs);
     }
 
     public Cursor getAllData(String table) {

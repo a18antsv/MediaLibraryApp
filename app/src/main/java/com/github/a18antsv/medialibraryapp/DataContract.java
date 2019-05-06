@@ -50,6 +50,7 @@ public class DataContract {
             MOVIE_TABLE_NAME + " (" +
             FOREIGNKEY_COL_PRODUCTKEY + " INTEGER PRIMARY KEY," +
             MOVIE_COL_LENGTH + " INTEGER," +
+            MOVIE_COL_AGE + " INTEGER," +
             MOVIE_COL_COMPANY + " TEXT," +
             MOVIE_COL_RATING + " INTEGER," +
             " FOREIGN KEY ("+FOREIGNKEY_COL_PRODUCTKEY+") REFERENCES " + PRODUCT_TABLE_NAME + "("+PRODUCT_COL_KEY+"))";
@@ -99,7 +100,6 @@ public class DataContract {
     public static class Entry implements BaseColumns {
         public static final String
                 LIST_TABLE_NAME = "list",
-                //LIST_COL_KEY = "listkey",
                 LIST_COL_NAME = "listname";
 
         public static final String
@@ -136,6 +136,7 @@ public class DataContract {
         public static final String
                 MOVIE_TABLE_NAME = "movie",
                 MOVIE_COL_LENGTH = "length",
+                MOVIE_COL_AGE = "age",
                 MOVIE_COL_RATING = "rating",
                 MOVIE_COL_COMPANY = "company";
 

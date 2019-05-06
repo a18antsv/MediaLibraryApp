@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();
 
-        Cursor c = dbHelper.getData("SELECT * FROM " + LIST_TABLE_NAME);
+        Cursor c = dbHelper.getData("SELECT * FROM " + LIST_TABLE_NAME, null);
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             lists.add(c.getString(c.getColumnIndex(LIST_COL_NAME)));
         }
