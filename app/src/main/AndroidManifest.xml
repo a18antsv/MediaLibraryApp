@@ -20,10 +20,20 @@
         <activity
             android:name=".ListContentActivity"
             android:label="List content"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.a18antsv.medialibraryapp.MainActivity"/>
         </activity>
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:label="Product details"
+            android:parentActivityName=".ListContentActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.a18antsv.medialibraryapp.ListContentActivity"/>
+        </activity>
     </application>
+
 </manifest>

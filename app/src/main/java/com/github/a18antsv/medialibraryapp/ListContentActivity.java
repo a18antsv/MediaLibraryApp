@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.a18antsv.medialibraryapp.objects.Book;
@@ -66,7 +66,7 @@ public class ListContentActivity extends AppCompatActivity {
                     new String[] {String.valueOf(productkey)}
             );
             c2.moveToFirst();
-            if(mediaTypeTableName == MOVIE_TABLE_NAME) {
+            if(mediaTypeTableName.equals(MOVIE_TABLE_NAME)) {
                 productList.add(new Movie(
                         c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
                         c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
@@ -79,7 +79,7 @@ public class ListContentActivity extends AppCompatActivity {
                         c2.getInt(c2.getColumnIndex(MOVIE_COL_RATING)),
                         c2.getString(c2.getColumnIndex(MOVIE_COL_COMPANY))
                 ));
-            } else if(mediaTypeTableName == SONG_TABLE_NAME) {
+            } else if(mediaTypeTableName.equals(SONG_TABLE_NAME)) {
                 productList.add(new Song(
                         c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
                         c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
@@ -91,7 +91,7 @@ public class ListContentActivity extends AppCompatActivity {
                         c2.getString(c2.getColumnIndex(SONG_COL_ARTIST)),
                         c2.getInt(c2.getColumnIndex(SONG_COL_LENGTH))
                 ));
-            } else if(mediaTypeTableName == BOOK_TABLE_NAME) {
+            } else if(mediaTypeTableName.equals(BOOK_TABLE_NAME)) {
                 productList.add(new Book(
                         c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
                         c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
@@ -104,7 +104,7 @@ public class ListContentActivity extends AppCompatActivity {
                         c2.getString(c2.getColumnIndex(BOOK_COL_TYPE)),
                         c2.getString(c2.getColumnIndex(BOOK_COL_ISBN))
                 ));
-            } else if(mediaTypeTableName == GAME_TABLE_NAME) {
+            } else if(mediaTypeTableName.equals(GAME_TABLE_NAME)) {
                 productList.add(new Game(
                         c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
                         c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
@@ -123,6 +123,50 @@ public class ListContentActivity extends AppCompatActivity {
         c1.close();
         adapter = new ListContentAdapter(this, R.layout.listview_list_content_item, productList);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Product p = productList.get(i);
+
+                Intent intent = new Intent(ListContentActivity.this, ProductDetailsActivity.class);
+                intent.putExtra(PRODUCT_COL_KEY, p.getProductkey());
+                intent.putExtra(PRODUCT_COL_TITLE, p.getTitle());
+                intent.putExtra(PRODUCT_COL_PRICE, p.getPrice());
+                intent.putExtra(PRODUCT_COL_RELEASE, p.getRelease());
+                intent.putExtra(PRODUCT_COL_GENRE, p.getGenre());
+                intent.putExtra(PRODUCT_COL_COMMENT, p.getComment());
+
+                if(p instanceof Book) {
+                    Book b = (Book) p;
+                    intent.putExtra("MEDIATYPE", BOOK_TABLE_NAME);
+                    intent.putExtra(BOOK_COL_PAGES, b.getPages());
+                    intent.putExtra(BOOK_COL_TYPE, b.getType());
+                    intent.putExtra(BOOK_COL_PUBLISHER, b.getPublisher());
+                    intent.putExtra(BOOK_COL_ISBN, b.getIsbn());
+                } else if(p instanceof Movie) {
+                    Movie m = (Movie) p;
+                    intent.putExtra("MEDIATYPE", MOVIE_TABLE_NAME);
+                    intent.putExtra(MOVIE_COL_LENGTH, m.getLength());
+                    intent.putExtra(MOVIE_COL_AGE, m.getAge());
+                    intent.putExtra(MOVIE_COL_COMPANY, m.getCompany());
+                    intent.putExtra(MOVIE_COL_RATING, m.getRating());
+                } else if(p instanceof Song) {
+                    Song s = (Song) p;
+                    intent.putExtra("MEDIATYPE", SONG_TABLE_NAME);
+                    intent.putExtra(SONG_COL_LENGTH, s.getLength());
+                    intent.putExtra(SONG_COL_LABEL, s.getLabel());
+                    intent.putExtra(SONG_COL_ARTIST, s.getArtist());
+                } else if(p instanceof Game) {
+                    Game g = (Game) p;
+                    intent.putExtra("MEDIATYPE", GAME_TABLE_NAME);
+                    intent.putExtra(GAME_COL_PLATFORM, g.getPlatform());
+                    intent.putExtra(GAME_COL_AGE, g.getAge());
+                    intent.putExtra(GAME_COL_DEVELOPER, g.getDeveloper());
+                    intent.putExtra(GAME_COL_PUBLISHER, g.getPublisher());
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     public boolean decideChildClass(String table, String[] selectionArgs) {

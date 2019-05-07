@@ -35,26 +35,28 @@ public class ListContentAdapter extends ArrayAdapter {
         if(convertView == null) {
             convertView = inflater.inflate(resource, parent, false);
         }
-
         Product p = productList.get(position);
-        /*if(p instanceof Book) {
-            createBookView((Book) p, convertView);
-        } else if(p instanceof Movie) {
-            createMovieView((Movie) p, convertView);
-        } else if(p instanceof Song) {
-            createSongView((Song) p, convertView);
-        } else if(p instanceof Game) {
-            createGameView((Game) p, convertView);
-        }*/
         return createView(p, convertView);
     }
 
     private View createView(Product p, View convertView) {
         ImageView icon = convertView.findViewById(R.id.imageview_icon);
-        TextView objectType = convertView.findViewById(R.id.textview_type);
+        TextView title = convertView.findViewById(R.id.textview_title);
+        TextView genre = convertView.findViewById(R.id.textview_genre);
+        TextView price = convertView.findViewById(R.id.textview_price);
 
-        icon.setImageResource(R.drawable.baseline_library_books_black_36dp);
-        objectType.setText(p.getClass().getSimpleName());
+        if(p instanceof Book) {
+            icon.setImageResource(R.drawable.baseline_library_books_black_36dp);
+        } else if(p instanceof Movie) {
+            icon.setImageResource(R.drawable.baseline_movie_black_36dp);
+        } else if(p instanceof Song) {
+            icon.setImageResource(R.drawable.baseline_music_note_black_36dp);
+        } else if(p instanceof Game) {
+            icon.setImageResource(R.drawable.baseline_videogame_asset_black_36dp);
+        }
+        title.setText(p.getTitle());
+        genre.setText(p.getGenre());
+        price.setText("$"+Integer.toString(p.getPrice()));
         return convertView;
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="Books"
+        android:text="Listname"
         android:textColor="@color/colorBlackText"
         android:textSize="16sp"
         android:textStyle="bold"/>
