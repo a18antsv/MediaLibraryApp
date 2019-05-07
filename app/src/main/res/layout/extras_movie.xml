@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView_movieLength"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="Length"
+        android:textColor="@color/colorBlackText"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textView_movieAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="Recommended age"
+        android:textColor="@color/colorBlackText"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textView_movieCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="Company"
+        android:textColor="@color/colorBlackText"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textView_movieRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="Rating"
+        android:textColor="@color/colorBlackText"
+        android:textSize="14sp"/>
+
+</LinearLayout>
