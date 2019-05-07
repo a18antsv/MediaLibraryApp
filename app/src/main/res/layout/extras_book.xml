@@ -5,44 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_bookPages"
+    <EditText
+        android:id="@+id/editText_bookPages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Pages"
-        android:textColor="@color/colorBlackText"
+        android:hint="Pages:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_bookType"
+    <EditText
+        android:id="@+id/editText_bookType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Type"
-        android:textColor="@color/colorBlackText"
+        android:hint="Type:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_bookPublisher"
+    <EditText
+        android:id="@+id/editText_bookPublisher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Publisher"
-        android:textColor="@color/colorBlackText"
+        android:hint="Publisher:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_bookIsbn"
+    <EditText
+        android:id="@+id/editText_bookIsbn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="ISBN"
-        android:textColor="@color/colorBlackText"
+        android:hint="ISBN:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
 </LinearLayout>

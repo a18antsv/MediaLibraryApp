@@ -5,44 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_gamePlatform"
+    <EditText
+        android:id="@+id/editText_gamePlatform"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Platform"
-        android:textColor="@color/colorBlackText"
+        android:hint="Platform:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_gameAge"
+    <EditText
+        android:id="@+id/editText_gameAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Recommended age"
-        android:textColor="@color/colorBlackText"
+        android:hint="Min age:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_gameDeveloper"
+    <EditText
+        android:id="@+id/editText_gameDeveloper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Developer"
-        android:textColor="@color/colorBlackText"
+        android:hint="Developer:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_gamePublisher"
+    <EditText
+        android:id="@+id/editText_gamePublisher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Publisher"
-        android:textColor="@color/colorBlackText"
+        android:hint="Publisher:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
 </LinearLayout>

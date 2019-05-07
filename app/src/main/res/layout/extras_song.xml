@@ -5,34 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_songLength"
+    <EditText
+        android:id="@+id/editText_songLength"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Length"
-        android:textColor="@color/colorBlackText"
+        android:hint="Length:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_songLabel"
+    <EditText
+        android:id="@+id/editText_songLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Label"
-        android:textColor="@color/colorBlackText"
+        android:hint="Label:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_songArtist"
+    <EditText
+        android:id="@+id/editText_songArtist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Artist"
-        android:textColor="@color/colorBlackText"
+        android:hint="Artist:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
 </LinearLayout>

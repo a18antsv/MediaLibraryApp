@@ -29,7 +29,8 @@
         <activity
             android:name=".ProductDetailsActivity"
             android:label="Product details"
-            android:parentActivityName=".ListContentActivity">
+            android:parentActivityName=".ListContentActivity"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.a18antsv.medialibraryapp.ListContentActivity"/>

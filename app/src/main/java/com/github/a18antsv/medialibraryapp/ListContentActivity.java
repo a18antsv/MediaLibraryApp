@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -36,7 +37,7 @@ public class ListContentActivity extends AppCompatActivity {
         dbHelper.getWritableDatabase();
 
         Intent intent = getIntent();
-        String listName = intent.getStringExtra("LISTNAME");
+        final String listName = intent.getStringExtra("LISTNAME");
         setTitle(listName + " content");
 
         Cursor c1 = dbHelper.getData(
@@ -129,6 +130,8 @@ public class ListContentActivity extends AppCompatActivity {
                 Product p = productList.get(i);
 
                 Intent intent = new Intent(ListContentActivity.this, ProductDetailsActivity.class);
+                intent.putExtra("LISTNAME", listName);
+                intent.putExtra("ITEMPOS", i);
                 intent.putExtra(PRODUCT_COL_KEY, p.getProductkey());
                 intent.putExtra(PRODUCT_COL_TITLE, p.getTitle());
                 intent.putExtra(PRODUCT_COL_PRICE, p.getPrice());
@@ -164,9 +167,19 @@ public class ListContentActivity extends AppCompatActivity {
                     intent.putExtra(GAME_COL_DEVELOPER, g.getDeveloper());
                     intent.putExtra(GAME_COL_PUBLISHER, g.getPublisher());
                 }
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == 1 && data != null) {
+            int itemPos = data.getIntExtra("ITEMPOS", -1);
+            productList.remove(itemPos);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public boolean decideChildClass(String table, String[] selectionArgs) {

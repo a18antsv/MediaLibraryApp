@@ -5,44 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_movieLength"
+
+    <EditText
+        android:id="@+id/editText_movieLength"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Length"
-        android:textColor="@color/colorBlackText"
+        android:hint="Length:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_movieAge"
+    <EditText
+        android:id="@+id/editText_movieAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Recommended age"
-        android:textColor="@color/colorBlackText"
+        android:hint="Min age:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_movieCompany"
+    <EditText
+        android:id="@+id/editText_movieCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Company"
-        android:textColor="@color/colorBlackText"
+        android:hint="Company:"
+        android:inputType="text"
         android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/textView_movieRating"
+    <EditText
+        android:id="@+id/editText_movieRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:text="Rating"
-        android:textColor="@color/colorBlackText"
+        android:hint="Rating:"
+        android:inputType="number"
         android:textSize="14sp"/>
 
 </LinearLayout>

@@ -76,6 +76,11 @@ public class DbHelper extends SQLiteOpenHelper {
         return db.delete(LIST_TABLE_NAME, LIST_COL_NAME + "=?", new String[] {listName});
     }
 
+    public int deleteProductFromList(int productkey, String listname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_PRODUCTKEY + "=? AND " + FOREIGNKEY_COL_LISTNAME + "=?", new String[] {String.valueOf(productkey), listname});
+    }
+
     public boolean duplicateData(String table, String column, String value) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + table + " WHERE " + column + "=?", new String[] {value});

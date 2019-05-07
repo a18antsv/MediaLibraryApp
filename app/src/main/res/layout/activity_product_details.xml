@@ -23,13 +23,12 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/textView_title"
+            <EditText
+                android:id="@+id/editText_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:text="Title"
-                android:textColor="@color/colorBlackText"
+                android:hint="Title:"
+                android:inputType="textMultiLine"
                 android:textSize="24sp"
                 android:textStyle="bold"/>
 
@@ -42,36 +41,23 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp">
 
-                    <TextView
-                        android:id="@+id/textView_price"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/editText_price"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        android:text="Price"
-                        android:textColor="@color/colorBlackText"
+                        android:hint="Price:"
+                        android:inputType="number"
                         android:textSize="14sp"/>
 
-                    <TextView
-                        android:id="@+id/textView_genre"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/editText_genre"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        android:text="Genre"
-                        android:textColor="@color/colorBlackText"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/textView_release"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        android:text="Release"
-                        android:textColor="@color/colorBlackText"
+                        android:hint="Genre:"
+                        android:inputType="text"
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -90,19 +76,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/editText_release"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Release date:"
+                    android:inputType="text"
+                    android:textSize="14sp"/>
+
                 <ViewStub
                     android:id="@+id/media_type_extras"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-                <TextView
-                    android:id="@+id/textView_comment"
+                <EditText
+                    android:id="@+id/editText_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:text="Comment comment comment comment comment comment comment"
-                    android:textColor="@color/colorBlackText"
+                    android:hint="Comment:"
+                    android:inputType="textMultiLine"
                     android:textSize="14sp"/>
             </LinearLayout>
 
