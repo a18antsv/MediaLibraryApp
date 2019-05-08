@@ -5,37 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <EditText
-        android:id="@+id/editText_movieLength"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Length:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_movieLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Length (min):"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_movieAge"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Min age:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_movieAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Min age (y):"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_movieCompany"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Company:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_movieCompany"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Company:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_movieRating"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Rating:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_movieRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Rating (?/10):"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

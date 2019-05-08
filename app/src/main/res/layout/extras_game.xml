@@ -5,36 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText_gamePlatform"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Platform:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_gamePlatform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Platform:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_gameAge"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Min age:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_gameAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Min age (y):"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_gameDeveloper"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Developer:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_gameDeveloper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Developer:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_gamePublisher"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Publisher:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_gamePublisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Publisher:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

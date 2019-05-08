@@ -5,28 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText_songLength"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Length:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_songLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Length (min):"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_songLabel"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Label:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_songLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Label:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_songArtist"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Artist:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_songArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Artist:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -172,24 +171,91 @@ public class ListContentActivity extends AppCompatActivity {
         });
     }
 
+    public boolean decideChildClass(String table, String[] selectionArgs) {
+        Cursor c = dbHelper.getData(
+                "SELECT "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+" FROM "+
+                        PRODUCT_TABLE_NAME+", "+table+
+                        " WHERE "+PRODUCT_TABLE_NAME+"."+PRODUCT_COL_KEY+" = "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+
+                        " AND "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+"=?",
+                selectionArgs
+        );
+        return c.moveToFirst() ? true : false;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == 1 && data != null) {
-            int itemPos = data.getIntExtra("ITEMPOS", -1);
-            productList.remove(itemPos);
-            adapter.notifyDataSetChanged();
-        }
-    }
+            int i = data.getIntExtra("ITEMPOS", -1);
+            if(data.hasExtra("DELETED")) {
+                productList.remove(i);
+                adapter.notifyDataSetChanged();
+            } else if(data.hasExtra("UPDATED")) {
+                Product p = productList.get(i);
+                String mediaType = data.getStringExtra("MEDIATYPE");
 
-    public boolean decideChildClass(String table, String[] selectionArgs) {
-        Cursor c = dbHelper.getData(
-                "SELECT "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+" FROM "+
-                PRODUCT_TABLE_NAME+", "+table+
-                " WHERE "+PRODUCT_TABLE_NAME+"."+PRODUCT_COL_KEY+" = "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+
-                " AND "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+"=?",
-                selectionArgs
-        );
-        return c.moveToFirst() ? true : false;
+                String newTitle = data.getStringExtra(PRODUCT_COL_TITLE);
+                int newPrice = data.getIntExtra(PRODUCT_COL_PRICE, -1);
+                String newGenre = data.getStringExtra(PRODUCT_COL_GENRE);
+                String newRelease = data.getStringExtra(PRODUCT_COL_RELEASE);
+                String newComment = data.getStringExtra(PRODUCT_COL_COMMENT);
+
+                p.setTitle(newTitle);
+                p.setPrice(newPrice);
+                p.setGenre(newGenre);
+                p.setRelease(newRelease);
+                p.setComment(newComment);
+
+                switch(mediaType) {
+                    case BOOK_TABLE_NAME:
+                        int newBookPages = data.getIntExtra(BOOK_COL_PAGES, -1);
+                        String newBookType = data.getStringExtra(BOOK_COL_TYPE);
+                        String newBookPublisher = data.getStringExtra(BOOK_COL_PUBLISHER);
+                        String newBookIsbn = data.getStringExtra(BOOK_COL_ISBN);
+
+                        Book b = (Book) p;
+                        b.setPages(newBookPages);
+                        b.setType(newBookType);
+                        b.setPublisher(newBookPublisher);
+                        b.setIsbn(newBookIsbn);
+                        break;
+                    case MOVIE_TABLE_NAME:
+                        int newMovieLength = data.getIntExtra(MOVIE_COL_LENGTH, -1);
+                        int newMovieAge = data.getIntExtra(MOVIE_COL_AGE, -1);
+                        String newMovieCompany = data.getStringExtra(MOVIE_COL_COMPANY);
+                        int newMovieRating = data.getIntExtra(MOVIE_COL_RATING, -1);
+
+                        Movie m = (Movie) p;
+                        m.setLength(newMovieLength);
+                        m.setAge(newMovieAge);
+                        m.setCompany(newMovieCompany);
+                        m.setRating(newMovieRating);
+                        break;
+                    case SONG_TABLE_NAME:
+                        int newSongLength = data.getIntExtra(SONG_COL_LENGTH, -1);
+                        String newSongLabel = data.getStringExtra(SONG_COL_LABEL);
+                        String newSongArtist = data.getStringExtra(SONG_COL_ARTIST);
+
+                        Song s = (Song) p;
+                        s.setLength(newSongLength);
+                        s.setLabel(newSongLabel);
+                        s.setArtist(newSongArtist);
+                        break;
+                    case GAME_TABLE_NAME:
+                        String newGamePlatform = data.getStringExtra(GAME_COL_PLATFORM);
+                        int newGameAge = data.getIntExtra(GAME_COL_AGE, -1);
+                        String newGameDeveloper = data.getStringExtra(GAME_COL_DEVELOPER);
+                        String newGamePublisher = data.getStringExtra(GAME_COL_PUBLISHER);
+
+                        Game g = (Game) p;
+                        g.setPlatform(newGamePlatform);
+                        g.setAge(newGameAge);
+                        g.setDeveloper(newGameDeveloper);
+                        g.setPublisher(newGamePublisher);
+                        break;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }

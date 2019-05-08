@@ -5,36 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText_bookPages"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Pages:"
-        android:inputType="number"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_bookPages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pages:"
+            android:inputType="number"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_bookType"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Type:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_bookType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_bookPublisher"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Publisher:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_bookPublisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Publisher:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editText_bookIsbn"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="ISBN:"
-        android:inputType="text"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editText_bookIsbn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ISBN:"
+            android:inputType="text"
+            android:textSize="14sp"/>
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
