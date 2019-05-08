@@ -11,6 +11,7 @@ import java.util.List;
 import static android.R.attr.label;
 import static android.R.attr.rating;
 import static android.R.attr.type;
+import static android.R.attr.value;
 import static com.github.a18antsv.medialibraryapp.DataContract.*;
 import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
 
@@ -63,6 +64,15 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(LIST_COL_NAME, name);
         long result = db.insert(LIST_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public boolean insertIntoList(int productkey, String listname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(FOREIGNKEY_COL_LISTNAME, listname);
+        long result = db.insert(LISTHASPRODUCT_TABLE_NAME, null, values);
         return (result == -1) ? false : true;
     }
 

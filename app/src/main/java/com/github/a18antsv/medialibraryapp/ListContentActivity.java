@@ -3,6 +3,7 @@ package com.github.a18antsv.medialibraryapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.a18antsv.medialibraryapp.fragments.FragmentAddList;
+import com.github.a18antsv.medialibraryapp.fragments.FragmentAddProduct;
 import com.github.a18antsv.medialibraryapp.objects.Book;
 import com.github.a18antsv.medialibraryapp.objects.Game;
 import com.github.a18antsv.medialibraryapp.objects.Movie;
@@ -26,12 +28,14 @@ import java.util.List;
 
 import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
 
-public class ListContentActivity extends AppCompatActivity {
+public class ListContentActivity extends AppCompatActivity implements FragmentAddProduct.onDataPassListener {
     private List<Product> productList;
     private ListView listView;
     private DbHelper dbHelper;
     private ListContentAdapter adapter;
     private String listName;
+    private FloatingActionButton addProductFab;
+    private FragmentAddProduct fragmentAddProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class ListContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_content);
 
         listView = (ListView) findViewById(R.id.listview_list_content);
+        addProductFab = (FloatingActionButton) findViewById(R.id.fab_add_product);
         productList = new ArrayList<>();
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();
@@ -47,6 +52,24 @@ public class ListContentActivity extends AppCompatActivity {
         listName = intent.getStringExtra("LISTNAME");
         setTitle(listName + " content");
 
+        setup();
+
+        addProductFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(findViewById(R.id.fragment_addproduct_container) != null) {
+                    fragmentAddProduct = new FragmentAddProduct();
+                    Bundle args = new Bundle();
+                    args.putString("ACTION", "add");
+                    fragmentAddProduct.setArguments(args);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_addproduct_container, fragmentAddProduct).commit();
+                }
+            }
+        });
+    }
+
+    public void setup() {
         Cursor c1 = dbHelper.getData(
                 "SELECT "+LISTHASPRODUCT_TABLE_NAME+"."+FOREIGNKEY_COL_PRODUCTKEY + " FROM " +
                 LIST_TABLE_NAME+", "+LISTHASPRODUCT_TABLE_NAME+
@@ -307,6 +330,15 @@ public class ListContentActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onDataPass(int productkey) {
+        if(dbHelper.insertIntoList(productkey, listName)) {
+            productList.clear();
+            adapter.clear();
+            setup();
         }
     }
 }
