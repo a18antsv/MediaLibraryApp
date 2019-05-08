@@ -1,13 +1,20 @@
 package com.github.a18antsv.medialibraryapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.github.a18antsv.medialibraryapp.fragments.FragmentAddList;
 import com.github.a18antsv.medialibraryapp.objects.Book;
 import com.github.a18antsv.medialibraryapp.objects.Game;
 import com.github.a18antsv.medialibraryapp.objects.Movie;
@@ -24,6 +31,7 @@ public class ListContentActivity extends AppCompatActivity {
     private ListView listView;
     private DbHelper dbHelper;
     private ListContentAdapter adapter;
+    private String listName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,7 @@ public class ListContentActivity extends AppCompatActivity {
         dbHelper.getWritableDatabase();
 
         Intent intent = getIntent();
-        final String listName = intent.getStringExtra("LISTNAME");
+        listName = intent.getStringExtra("LISTNAME");
         setTitle(listName + " content");
 
         Cursor c1 = dbHelper.getData(
@@ -123,6 +131,7 @@ public class ListContentActivity extends AppCompatActivity {
         c1.close();
         adapter = new ListContentAdapter(this, R.layout.listview_list_content_item, productList);
         listView.setAdapter(adapter);
+        registerForContextMenu(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -256,6 +265,48 @@ public class ListContentActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu_delete, menu);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        Product p = (Product) adapter.getItem(info.position);
+        menu.setHeaderTitle(p.getTitle());
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final Product p = (Product) adapter.getItem(info.position);
+        switch(item.getItemId()) {
+            case R.id.option_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Are you sure?");
+                builder.setMessage("This list and all its content will be deleted.");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int deletedRows = dbHelper.deleteProductFromList(p.getProductkey(), listName);
+                        if(deletedRows == 1) {
+                            Toast.makeText(getApplicationContext(), "Successfully deleted " + p.getTitle() + " from the list named " + listName, Toast.LENGTH_SHORT).show();
+                            productList.remove((int)(long)info.id);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.create().show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 }

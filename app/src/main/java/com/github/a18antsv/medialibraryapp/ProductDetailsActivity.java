@@ -148,7 +148,57 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hasUpdated = true;
-                Toast.makeText(getApplicationContext(), "Successfully updated this product", Toast.LENGTH_SHORT).show();
+                int updatedParentRows = dbHelper.updateProduct(
+                        productkey,
+                        editTextTitle.getText().toString(),
+                        Integer.parseInt(editTextPrice.getText().toString()),
+                        editTextRelease.getText().toString(),
+                        editTextGenre.getText().toString(),
+                        editTextComment.getText().toString()
+                );
+                if(updatedParentRows == 1) {
+                    int updatedChildRows = 0;
+                    switch (mediaType) {
+                        case BOOK_TABLE_NAME:
+                           updatedChildRows = dbHelper.updateBook(
+                                    productkey,
+                                    Integer.parseInt(editTextBookPages.getText().toString()),
+                                    editTextBookType.getText().toString(),
+                                    editTextBookPublisher.getText().toString(),
+                                    editTextBookIsbn.getText().toString()
+                            );
+                            break;
+                        case MOVIE_TABLE_NAME:
+                            updatedChildRows = dbHelper.updateMovie(
+                                    productkey,
+                                    Integer.parseInt(editTextMovieLength.getText().toString()),
+                                    Integer.parseInt(editTextMovieAge.getText().toString()),
+                                    editTextMovieCompany.getText().toString(),
+                                    Integer.parseInt(editTextMovieRating.getText().toString())
+                            );
+                            break;
+                        case SONG_TABLE_NAME:
+                            updatedChildRows = dbHelper.updateSong(
+                                    productkey,
+                                    Integer.parseInt(editTextSongLength.getText().toString()),
+                                    editTextSongLabel.getText().toString(),
+                                    editTextSongArtist.getText().toString()
+                            );
+                            break;
+                        case GAME_TABLE_NAME:
+                            updatedChildRows = dbHelper.updateGame(
+                                    productkey,
+                                    editTextGamePlatform.getText().toString(),
+                                    Integer.parseInt(editTextGameAge.getText().toString()),
+                                    editTextGameDeveloper.getText().toString(),
+                                    editTextGamePublisher.getText().toString()
+                            );
+                            break;
+                    }
+                    if(updatedChildRows == 1) {
+                        Toast.makeText(getApplicationContext(), "Successfully updated this product", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
