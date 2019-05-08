@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    tools:context=".activity.ProductDetailsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:background="@android:color/background_light"
+        android:elevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Spinner
+                android:id="@+id/spinner_mediaTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title:"
+                    android:inputType="textMultiLine"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Price ($):"
+                    android:inputType="number"
+                    android:textSize="14sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Genre:"
+                    android:inputType="text"
+                    android:textSize="14sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_release"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Release date:"
+                    android:inputType="text"
+                    android:textSize="14sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <ViewStub
+                android:id="@+id/viewStub_book"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ViewStub
+                android:id="@+id/viewStub_movie"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ViewStub
+                android:id="@+id/viewStub_song"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ViewStub
+                android:id="@+id/viewStub_game"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comment:"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_add_to_database"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_to_database"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

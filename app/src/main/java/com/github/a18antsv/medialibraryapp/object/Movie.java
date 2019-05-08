@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp.objects;
+package com.github.a18antsv.medialibraryapp.object;
 
 public class Movie extends Product {
     private int length;

@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp.fragments;
+package com.github.a18antsv.medialibraryapp.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.a18antsv.medialibraryapp.objects.Book;
-import com.github.a18antsv.medialibraryapp.objects.Game;
-import com.github.a18antsv.medialibraryapp.objects.Movie;
-import com.github.a18antsv.medialibraryapp.objects.Product;
-import com.github.a18antsv.medialibraryapp.objects.Song;
+import com.github.a18antsv.medialibraryapp.R;
+import com.github.a18antsv.medialibraryapp.object.Book;
+import com.github.a18antsv.medialibraryapp.object.Game;
+import com.github.a18antsv.medialibraryapp.object.Movie;
+import com.github.a18antsv.medialibraryapp.object.Product;
+import com.github.a18antsv.medialibraryapp.object.Song;
 
 import java.util.List;
 

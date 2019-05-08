@@ -1,7 +1,7 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.database;
 
 import android.provider.BaseColumns;
-import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 
 public class DataContract {

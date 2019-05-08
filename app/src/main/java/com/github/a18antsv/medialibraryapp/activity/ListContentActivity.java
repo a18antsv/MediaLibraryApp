@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,18 +14,20 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.github.a18antsv.medialibraryapp.fragments.FragmentAddList;
-import com.github.a18antsv.medialibraryapp.fragments.FragmentAddProduct;
-import com.github.a18antsv.medialibraryapp.objects.Book;
-import com.github.a18antsv.medialibraryapp.objects.Game;
-import com.github.a18antsv.medialibraryapp.objects.Movie;
-import com.github.a18antsv.medialibraryapp.objects.Product;
-import com.github.a18antsv.medialibraryapp.objects.Song;
+import com.github.a18antsv.medialibraryapp.R;
+import com.github.a18antsv.medialibraryapp.adapter.ListContentAdapter;
+import com.github.a18antsv.medialibraryapp.database.DbHelper;
+import com.github.a18antsv.medialibraryapp.fragment.FragmentAddProduct;
+import com.github.a18antsv.medialibraryapp.object.Book;
+import com.github.a18antsv.medialibraryapp.object.Game;
+import com.github.a18antsv.medialibraryapp.object.Movie;
+import com.github.a18antsv.medialibraryapp.object.Product;
+import com.github.a18antsv.medialibraryapp.object.Song;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class ListContentActivity extends AppCompatActivity implements FragmentAddProduct.onDataPassListener {
     private List<Product> productList;

@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,14 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.List;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.*;
 
-import static android.R.attr.label;
-import static android.R.attr.rating;
-import static android.R.attr.type;
-import static android.R.attr.value;
-import static com.github.a18antsv.medialibraryapp.DataContract.*;
-import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "medialibrary.db";
@@ -35,13 +30,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_BOOK_TABLE);
         db.execSQL(CREATE_GAME_TABLE);
         db.execSQL(CREATE_SONG_TABLE);
-
-        /*insertList(db, "Movies");
-        insertList(db, "Books");
-        insertList(db, "Games");
-        insertList(db, "Songs");
-        insertList(db, "Favourite songs");
-        insertList(db, "Best movies");*/
     }
 
     @Override
@@ -76,17 +64,82 @@ public class DbHelper extends SQLiteOpenHelper {
         return (result == -1) ? false : true;
     }
 
-    public int updateList(String newListName, String oldListName) {
+    public boolean insertIntoProduct(String title, int price, String release, String genre, String comment) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(LIST_COL_NAME, newListName);
-        return db.update(LIST_TABLE_NAME, values, LIST_COL_NAME + "=?", new String[] {oldListName});
+        values.put(PRODUCT_COL_TITLE, title);
+        values.put(PRODUCT_COL_PRICE, price);
+        values.put(PRODUCT_COL_RELEASE, release);
+        values.put(PRODUCT_COL_GENRE, genre);
+        values.put(PRODUCT_COL_COMMENT, comment);
+        long result = db.insert(PRODUCT_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public boolean insertIntoBook(int productkey, int pages, String type, String publisher, String isbn) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(BOOK_COL_PAGES, pages);
+        values.put(BOOK_COL_TYPE, type);
+        values.put(BOOK_COL_PUBLISHER, publisher);
+        values.put(BOOK_COL_ISBN, isbn);
+        long result = db.insert(BOOK_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public boolean insertIntoMovie(int productkey, int length, int age, String company, int rating) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(MOVIE_COL_LENGTH, length);
+        values.put(MOVIE_COL_AGE, age);
+        values.put(MOVIE_COL_COMPANY, company);
+        values.put(MOVIE_COL_RATING, rating);
+        long result = db.insert(MOVIE_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public boolean insertIntoSong(int productkey, int length, String label, String artist) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(SONG_COL_LENGTH, length);
+        values.put(SONG_COL_LABEL, label);
+        values.put(SONG_COL_ARTIST, artist);
+        long result = db.insert(SONG_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public boolean insertIntoGame(int productkey, String platform, int age , String developer, String publisher) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(GAME_COL_PLATFORM, platform);
+        values.put(GAME_COL_AGE,  age);
+        values.put(GAME_COL_DEVELOPER, developer);
+        values.put(GAME_COL_PUBLISHER, publisher);
+        long result = db.insert(GAME_TABLE_NAME, null, values);
+        return (result == -1) ? false : true;
+    }
+
+    public int updateList(String newListName, String oldListName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values1 = new ContentValues();
+        values1.put(LIST_COL_NAME, newListName);
+        ContentValues values2 = new ContentValues();
+        values2.put(FOREIGNKEY_COL_LISTNAME, newListName);
+        int a = db.update(LIST_TABLE_NAME, values1, LIST_COL_NAME + "=?", new String[] {oldListName});
+        int b = db.update(LISTHASPRODUCT_TABLE_NAME, values2, FOREIGNKEY_COL_LISTNAME + "=?", new String[] {oldListName});
+        return a + b;
     }
 
     //Update to affect a lists content later
     public int deleteList(String listName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(LIST_TABLE_NAME, LIST_COL_NAME + "=?", new String[] {listName});
+        int a = db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_LISTNAME + "=?", new String[] {listName});
+        int b = db.delete(LIST_TABLE_NAME, LIST_COL_NAME + "=?", new String[] {listName});
+        return a + b;
     }
 
     public int deleteProductFromList(int productkey, String listname) {
@@ -154,8 +207,6 @@ public class DbHelper extends SQLiteOpenHelper {
         c.close();
         return true;
     }
-
-
 
 
     public Cursor getData(String query, String[] selectionArgs) {

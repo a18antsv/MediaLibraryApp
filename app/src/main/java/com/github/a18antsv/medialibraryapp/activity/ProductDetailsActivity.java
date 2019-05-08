@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
+import com.github.a18antsv.medialibraryapp.DownloadImage;
+import com.github.a18antsv.medialibraryapp.R;
+import com.github.a18antsv.medialibraryapp.database.DbHelper;
+
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     private DbHelper dbHelper;

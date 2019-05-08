@@ -3,10 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <item
-        android:id="@+id/test"
-        android:title="TEST"
+        android:id="@+id/option_add_to_database"
+        android:title="@string/add_to_database"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/option_delete_from_database"
+        android:title="@string/delete_from_database"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/option_get_example_data"
+        android:title="@string/get_example_data"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/option_about"
+        android:title="@string/about"
+        app:showAsAction="never"/>
+
 </menu>

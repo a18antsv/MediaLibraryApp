@@ -1,4 +1,4 @@
-package com.github.a18antsv.medialibraryapp;
+package com.github.a18antsv.medialibraryapp.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,12 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.github.a18antsv.medialibraryapp.fragments.FragmentAddList;
+import com.github.a18antsv.medialibraryapp.R;
+import com.github.a18antsv.medialibraryapp.database.DbHelper;
+import com.github.a18antsv.medialibraryapp.fragment.FragmentAddList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.a18antsv.medialibraryapp.DataContract.Entry.*;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class MainActivity extends AppCompatActivity implements FragmentAddList.onDataPassListener {
     private List<String> lists;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
             lists.add(c.getString(c.getColumnIndex(LIST_COL_NAME)));
         }
         c.close();
+
         adapter = new ArrayAdapter(this, R.layout.listview_lists_item, R.id.list_name, lists);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);
@@ -85,8 +87,18 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.test:
-                Toast.makeText(getApplicationContext(), "TEST", Toast.LENGTH_SHORT).show();
+            case R.id.option_add_to_database:
+                Intent intent = new Intent(MainActivity.this, AddProductActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.option_delete_from_database:
+
+                break;
+            case R.id.option_get_example_data:
+
+                break;
+            case R.id.option_about:
+
                 break;
         }
         return super.onOptionsItemSelected(item);

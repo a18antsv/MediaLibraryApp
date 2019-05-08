@@ -11,29 +11,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListContentActivity"
+            android:name=".activity.ListContentActivity"
             android:label="List content"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.a18antsv.medialibraryapp.MainActivity"/>
+                android:value="com.github.a18antsv.medialibraryapp.activity.MainActivity"/>
         </activity>
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".activity.ProductDetailsActivity"
             android:label="Product details"
-            android:parentActivityName=".ListContentActivity"
+            android:parentActivityName=".activity.ListContentActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.a18antsv.medialibraryapp.ListContentActivity"/>
+                android:value="com.github.a18antsv.medialibraryapp.activity.ListContentActivity"/>
+        </activity>
+        <activity
+            android:name=".activity.AddProductActivity"
+            android:label="@string/add_to_database"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.a18antsv.medialibraryapp.activity.MainActivity"/>
         </activity>
     </application>
 
