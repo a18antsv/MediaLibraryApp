@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.listview_lists);
+        listView = findViewById(R.id.listview_lists);
         lists = new ArrayList<>();
-        addListFab = (FloatingActionButton) findViewById(R.id.fab_add_list);
+        addListFab = findViewById(R.id.fab_add_list);
 
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();
@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                 startActivity(intent);
                 break;
             case R.id.option_delete_from_database:
-
+                Intent intent2 = new Intent(MainActivity.this, DeleteProductActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.option_get_example_data:
 

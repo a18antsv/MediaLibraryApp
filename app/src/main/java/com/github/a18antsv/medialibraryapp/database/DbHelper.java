@@ -134,7 +134,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return a + b;
     }
 
-    //Update to affect a lists content later
     public int deleteList(String listName) {
         SQLiteDatabase db = this.getWritableDatabase();
         int a = db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_LISTNAME + "=?", new String[] {listName});
@@ -144,7 +143,21 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public int deleteProductFromList(int productkey, String listname) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_PRODUCTKEY + "=? AND " + FOREIGNKEY_COL_LISTNAME + "=?", new String[] {String.valueOf(productkey), listname});
+        if(listname == null) {
+            return db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_PRODUCTKEY + "=?", new String[] {String.valueOf(productkey)});
+        } else {
+            return db.delete(LISTHASPRODUCT_TABLE_NAME, FOREIGNKEY_COL_PRODUCTKEY + "=? AND " + FOREIGNKEY_COL_LISTNAME + "=?", new String[] {String.valueOf(productkey), listname});
+        }
+    }
+
+    public int deleteProduct(int productkey, String table, boolean isChild) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        if(isChild) {
+            return db.delete(table, FOREIGNKEY_COL_PRODUCTKEY + "=?", new String[] {String.valueOf(productkey)});
+        } else {
+            return db.delete(table, PRODUCT_COL_KEY + "=?", new String[] {String.valueOf(productkey)});
+        }
+
     }
 
     public int updateProduct(int productkey, String title, int price, String release, String genre, String comment) {
@@ -212,11 +225,5 @@ public class DbHelper extends SQLiteOpenHelper {
     public Cursor getData(String query, String[] selectionArgs) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(query, selectionArgs);
-    }
-
-    public Cursor getAllData(String table) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + table, null);
-        return data;
     }
 }

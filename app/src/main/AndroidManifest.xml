@@ -14,6 +14,7 @@
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -38,6 +39,15 @@
         <activity
             android:name=".activity.AddProductActivity"
             android:label="@string/add_to_database"
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.a18antsv.medialibraryapp.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".activity.DeleteProductActivity"
+            android:label="@string/delete_from_database"
             android:parentActivityName=".activity.MainActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data

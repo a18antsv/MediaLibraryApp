@@ -20,18 +20,7 @@ import com.github.a18antsv.medialibraryapp.object.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.BOOK_TABLE_NAME;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.FOREIGNKEY_COL_PRODUCTKEY;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.GAME_TABLE_NAME;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.MOVIE_TABLE_NAME;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_COMMENT;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_GENRE;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_KEY;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_PRICE;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_RELEASE;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_COL_TITLE;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.PRODUCT_TABLE_NAME;
-import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.SONG_TABLE_NAME;
+import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class FragmentAddProduct extends Fragment {
     private TextView textViewClose, textViewInfo;

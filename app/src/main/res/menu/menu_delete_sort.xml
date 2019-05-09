@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.DeleteProductActivity">>
+
+    <item
+        android:id="@+id/option_sort_book"
+        android:title="@string/sort_by_book"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/option_sort_movie"
+        android:title="@string/sort_by_movie"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/option_sort_song"
+        android:title="@string/sort_by_song"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/option_sort_game"
+        android:title="@string/sort_by_game"
+        app:showAsAction="never"/>
+</menu>

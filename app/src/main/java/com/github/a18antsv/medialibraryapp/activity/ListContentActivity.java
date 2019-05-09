@@ -43,8 +43,8 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_content);
 
-        listView = (ListView) findViewById(R.id.listview_list_content);
-        addProductFab = (FloatingActionButton) findViewById(R.id.fab_add_product);
+        listView = findViewById(R.id.listview_list_content);
+        addProductFab = findViewById(R.id.fab_add_product);
         productList = new ArrayList<>();
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();
@@ -98,57 +98,64 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                     new String[] {String.valueOf(productkey)}
             );
             c2.moveToFirst();
-            if(mediaTypeTableName.equals(MOVIE_TABLE_NAME)) {
-                productList.add(new Movie(
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
-                        c2.getInt(c2.getColumnIndex(MOVIE_COL_LENGTH)),
-                        c2.getInt(c2.getColumnIndex(MOVIE_COL_AGE)),
-                        c2.getInt(c2.getColumnIndex(MOVIE_COL_RATING)),
-                        c2.getString(c2.getColumnIndex(MOVIE_COL_COMPANY))
-                ));
-            } else if(mediaTypeTableName.equals(SONG_TABLE_NAME)) {
-                productList.add(new Song(
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
-                        c2.getString(c2.getColumnIndex(SONG_COL_LABEL)),
-                        c2.getString(c2.getColumnIndex(SONG_COL_ARTIST)),
-                        c2.getInt(c2.getColumnIndex(SONG_COL_LENGTH))
-                ));
-            } else if(mediaTypeTableName.equals(BOOK_TABLE_NAME)) {
-                productList.add(new Book(
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
-                        c2.getString(c2.getColumnIndex(BOOK_COL_PUBLISHER)),
-                        c2.getInt(c2.getColumnIndex(BOOK_COL_PAGES)),
-                        c2.getString(c2.getColumnIndex(BOOK_COL_TYPE)),
-                        c2.getString(c2.getColumnIndex(BOOK_COL_ISBN))
-                ));
-            } else if(mediaTypeTableName.equals(GAME_TABLE_NAME)) {
-                productList.add(new Game(
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
-                        c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
-                        c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
-                        c2.getString(c2.getColumnIndex(GAME_COL_PLATFORM)),
-                        c2.getString(c2.getColumnIndex(GAME_COL_PUBLISHER)),
-                        c2.getString(c2.getColumnIndex(GAME_COL_DEVELOPER)),
-                        c2.getInt(c2.getColumnIndex(GAME_COL_AGE))
-                ));
+
+            switch (mediaTypeTableName) {
+                case MOVIE_TABLE_NAME:
+                    productList.add(new Movie(
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getInt(c2.getColumnIndex(MOVIE_COL_LENGTH)),
+                            c2.getInt(c2.getColumnIndex(MOVIE_COL_AGE)),
+                            c2.getInt(c2.getColumnIndex(MOVIE_COL_RATING)),
+                            c2.getString(c2.getColumnIndex(MOVIE_COL_COMPANY))
+                    ));
+                    break;
+                case SONG_TABLE_NAME:
+                    productList.add(new Song(
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(SONG_COL_LABEL)),
+                            c2.getString(c2.getColumnIndex(SONG_COL_ARTIST)),
+                            c2.getInt(c2.getColumnIndex(SONG_COL_LENGTH))
+                    ));
+                    break;
+                case BOOK_TABLE_NAME:
+                    productList.add(new Book(
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(BOOK_COL_PUBLISHER)),
+                            c2.getInt(c2.getColumnIndex(BOOK_COL_PAGES)),
+                            c2.getString(c2.getColumnIndex(BOOK_COL_TYPE)),
+                            c2.getString(c2.getColumnIndex(BOOK_COL_ISBN))
+                    ));
+                    break;
+                case GAME_TABLE_NAME:
+                    productList.add(new Game(
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_KEY)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_TITLE)),
+                            c2.getInt(c2.getColumnIndex(PRODUCT_COL_PRICE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(GAME_COL_PLATFORM)),
+                            c2.getString(c2.getColumnIndex(GAME_COL_PUBLISHER)),
+                            c2.getString(c2.getColumnIndex(GAME_COL_DEVELOPER)),
+                            c2.getInt(c2.getColumnIndex(GAME_COL_AGE))
+                    ));
+                    break;
+
             }
             c2.close();
         }
@@ -212,7 +219,7 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                         " AND "+table+"."+FOREIGNKEY_COL_PRODUCTKEY+"=?",
                 selectionArgs
         );
-        return c.moveToFirst() ? true : false;
+        return c.moveToFirst();
     }
 
     @Override

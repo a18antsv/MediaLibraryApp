@@ -39,7 +39,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         dbHelper.getWritableDatabase();
         hasUpdated = false;
 
-        ViewStub stub = (ViewStub) findViewById(R.id.media_type_extras);
+        ViewStub stub = findViewById(R.id.media_type_extras);
 
         Intent intent = getIntent();
         mediaType = intent.getStringExtra("MEDIATYPE");
@@ -54,14 +54,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         setTitle(mediaType.substring(0,1).toUpperCase() + mediaType.substring(1) + " details");
 
-        ImageView imageViewProduct = (ImageView) findViewById(R.id.imageView_product);
-        editTextTitle = (EditText) findViewById(R.id.editText_title);
-        editTextPrice = (EditText) findViewById(R.id.editText_price);
-        editTextRelease = (EditText) findViewById(R.id.editText_release);
-        editTextGenre = (EditText) findViewById(R.id.editText_genre);
-        editTextComment = (EditText) findViewById(R.id.editText_comment);
-        Button buttonEdit = (Button) findViewById(R.id.button_update);
-        Button buttonDelete = (Button) findViewById(R.id.button_delete);
+        ImageView imageViewProduct = findViewById(R.id.imageView_product);
+        editTextTitle = findViewById(R.id.editText_title);
+        editTextPrice = findViewById(R.id.editText_price);
+        editTextRelease = findViewById(R.id.editText_release);
+        editTextGenre = findViewById(R.id.editText_genre);
+        editTextComment = findViewById(R.id.editText_comment);
+        Button buttonEdit = findViewById(R.id.button_update);
+        Button buttonDelete = findViewById(R.id.button_delete);
 
         //Add url as property to the product object and into the database and put a variable for it here - Test image for now
         new DownloadImage(imageViewProduct).execute("https://thumbs.dreamstime.com/z/tv-test-image-card-rainbow-multi-color-bars-geometric-signals-retro-hardware-s-minimal-pop-art-print-suitable-89603635.jpg");
@@ -72,7 +72,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         editTextGenre.setText(genre);
         editTextComment.setText(comment);
 
-        switch (mediaType) {
+        switch(mediaType) {
             case BOOK_TABLE_NAME:
                 stub.setLayoutResource(R.layout.extras_book);
                 stub.inflate();
@@ -82,10 +82,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 String bookPublisher = intent.getStringExtra(BOOK_COL_PUBLISHER);
                 String bookIsbn = intent.getStringExtra(BOOK_COL_ISBN);
 
-                editTextBookPages = (EditText) findViewById(R.id.editText_bookPages);
-                editTextBookType = (EditText) findViewById(R.id.editText_bookType);
-                editTextBookPublisher = (EditText) findViewById(R.id.editText_bookPublisher);
-                editTextBookIsbn = (EditText) findViewById(R.id.editText_bookIsbn);
+                editTextBookPages = findViewById(R.id.editText_bookPages);
+                editTextBookType = findViewById(R.id.editText_bookType);
+                editTextBookPublisher = findViewById(R.id.editText_bookPublisher);
+                editTextBookIsbn = findViewById(R.id.editText_bookIsbn);
 
                 editTextBookPages.setText(Integer.toString(bookPages));
                 editTextBookType.setText(bookType);
@@ -101,10 +101,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 String movieCompany = intent.getStringExtra(MOVIE_COL_COMPANY);
                 int movieRating = intent.getIntExtra(MOVIE_COL_RATING, -1);
 
-                editTextMovieLength = (EditText) findViewById(R.id.editText_movieLength);
-                editTextMovieAge = (EditText) findViewById(R.id.editText_movieAge);
-                editTextMovieCompany = (EditText) findViewById(R.id.editText_movieCompany);
-                editTextMovieRating = (EditText) findViewById(R.id.editText_movieRating);
+                editTextMovieLength = findViewById(R.id.editText_movieLength);
+                editTextMovieAge = findViewById(R.id.editText_movieAge);
+                editTextMovieCompany = findViewById(R.id.editText_movieCompany);
+                editTextMovieRating = findViewById(R.id.editText_movieRating);
 
                 editTextMovieLength.setText(Integer.toString(movieLength));
                 editTextMovieAge.setText(Integer.toString(movieAge));
@@ -119,9 +119,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 String songLabel = intent.getStringExtra(SONG_COL_LABEL);
                 String songArtist = intent.getStringExtra(SONG_COL_ARTIST);
 
-                editTextSongLength = (EditText) findViewById(R.id.editText_songLength);
-                editTextSongLabel = (EditText) findViewById(R.id.editText_songLabel);
-                editTextSongArtist = (EditText) findViewById(R.id.editText_songArtist);
+                editTextSongLength = findViewById(R.id.editText_songLength);
+                editTextSongLabel = findViewById(R.id.editText_songLabel);
+                editTextSongArtist = findViewById(R.id.editText_songArtist);
 
                 editTextSongLength.setText(Integer.toString(songLength));
                 editTextSongLabel.setText(songLabel);
@@ -136,10 +136,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 String gameDeveloper = intent.getStringExtra(GAME_COL_DEVELOPER);
                 String gamePublisher = intent.getStringExtra(GAME_COL_PUBLISHER);
 
-                editTextGamePlatform = (EditText) findViewById(R.id.editText_gamePlatform);
-                editTextGameAge = (EditText) findViewById(R.id.editText_gameAge);
-                editTextGameDeveloper = (EditText) findViewById(R.id.editText_gameDeveloper);
-                editTextGamePublisher = (EditText) findViewById(R.id.editText_gamePublisher);
+                editTextGamePlatform = findViewById(R.id.editText_gamePlatform);
+                editTextGameAge = findViewById(R.id.editText_gameAge);
+                editTextGameDeveloper = findViewById(R.id.editText_gameDeveloper);
+                editTextGamePublisher = findViewById(R.id.editText_gamePublisher);
 
                 editTextGamePlatform.setText(gamePlatform);
                 editTextGameAge.setText(Integer.toString(gameAge));
@@ -162,7 +162,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 );
                 if(updatedParentRows == 1) {
                     int updatedChildRows = 0;
-                    switch (mediaType) {
+                    switch(mediaType) {
                         case BOOK_TABLE_NAME:
                            updatedChildRows = dbHelper.updateBook(
                                     productkey,
