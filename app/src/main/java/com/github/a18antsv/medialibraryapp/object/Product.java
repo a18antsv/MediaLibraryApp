@@ -7,14 +7,16 @@ public class Product {
     private String release;
     private String genre;
     private String comment;
+    private String imgUrl;
 
-    public Product(int productkey, String title, int price, String release, String genre, String comment) {
+    public Product(int productkey, String title, int price, String release, String genre, String comment, String imgUrl) {
         this.productkey = productkey;
         this.title = title;
         this.price = price;
         this.release = release;
         this.genre = genre;
         this.comment = comment;
+        this.imgUrl = imgUrl;
     }
 
     public int getProductkey() {
@@ -63,5 +65,13 @@ public class Product {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

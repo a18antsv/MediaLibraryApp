@@ -13,4 +13,12 @@
     <string name="sort_by_movie">Sort by Movie</string>
     <string name="sort_by_song">Sort by Song</string>
     <string name="sort_by_game">Sort by Game</string>
+
+    <string-array name="example_lists">
+        <item>All below</item>
+        <item>Example Books</item>
+        <item>Example Movies</item>
+        <item>Example Songs</item>
+        <item>Example Games</item>
+    </string-array>
 </resources>

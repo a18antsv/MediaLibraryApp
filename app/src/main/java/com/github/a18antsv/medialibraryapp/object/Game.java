@@ -6,8 +6,8 @@ public class Game extends Product {
     private String developer;
     private int age;
 
-    public Game(int productkey, String title, int price, String release, String genre, String comment, String platform, String publisher, String developer, int age) {
-        super(productkey, title, price, release, genre, comment);
+    public Game(int productkey, String title, int price, String release, String genre, String comment, String imgUrl, String platform, String publisher, String developer, int age) {
+        super(productkey, title, price, release, genre, comment, imgUrl);
         this.platform = platform;
         this.publisher = publisher;
         this.developer = developer;

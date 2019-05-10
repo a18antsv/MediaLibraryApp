@@ -26,6 +26,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
                     android:id="@+id/editText_title"
                     android:layout_width="match_parent"
@@ -51,6 +52,7 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <EditText
                             android:id="@+id/editText_price"
                             android:layout_width="match_parent"
@@ -63,6 +65,7 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <EditText
                             android:id="@+id/editText_genre"
                             android:layout_width="match_parent"
@@ -76,9 +79,10 @@
 
                 <ImageView
                     android:id="@+id/imageView_product"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_weight="0.02"
                     android:contentDescription="Product Details"
                     app:srcCompat="@drawable/baseline_add_photo_alternate_black_48dp"/>
 
@@ -92,6 +96,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <EditText
                         android:id="@+id/editText_release"
                         android:layout_width="match_parent"
@@ -109,11 +114,25 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <EditText
                         android:id="@+id/editText_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Comment:"
+                        android:inputType="textMultiLine"
+                        android:textSize="14sp"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editText_imgurl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Image url:"
                         android:inputType="textMultiLine"
                         android:textSize="14sp"/>
                 </android.support.design.widget.TextInputLayout>

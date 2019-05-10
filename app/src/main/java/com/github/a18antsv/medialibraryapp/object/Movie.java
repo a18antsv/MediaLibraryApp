@@ -6,8 +6,8 @@ public class Movie extends Product {
     private int rating;
     private String company;
 
-    public Movie(int productkey, String title, int price, String release, String genre, String comment, int length, int age, int rating, String company) {
-        super(productkey, title, price, release, genre, comment);
+    public Movie(int productkey, String title, int price, String release, String genre, String comment,  String imgUrl, int length, int age, int rating, String company) {
+        super(productkey, title, price, release, genre, comment, imgUrl);
         this.length = length;
         this.age = age;
         this.rating = rating;

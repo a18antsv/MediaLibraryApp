@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -17,6 +18,9 @@ import com.github.a18antsv.medialibraryapp.DownloadImage;
 import com.github.a18antsv.medialibraryapp.R;
 import com.github.a18antsv.medialibraryapp.database.DbHelper;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class ProductDetailsActivity extends AppCompatActivity {
@@ -24,11 +28,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private boolean hasUpdated;
     private String mediaType;
     private int clickedItemPos;
-    private EditText editTextTitle, editTextPrice, editTextRelease, editTextGenre, editTextComment;
-    private EditText editTextBookPages, editTextBookType, editTextBookPublisher, editTextBookIsbn;
+    private EditText editTextTitle, editTextPrice, editTextRelease, editTextGenre, editTextComment, editTextImgUrl;
+    private EditText editTextBookAuthor, editTextBookPages, editTextBookType, editTextBookPublisher, editTextBookIsbn;
     private EditText editTextMovieLength, editTextMovieAge, editTextMovieCompany, editTextMovieRating;
     private EditText editTextSongLength, editTextSongLabel, editTextSongArtist;
     private EditText editTextGamePlatform, editTextGameAge, editTextGameDeveloper, editTextGamePublisher;
+    private ImageView imageViewProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,42 +56,51 @@ public class ProductDetailsActivity extends AppCompatActivity {
         String genre = intent.getStringExtra(PRODUCT_COL_GENRE);
         String release = intent.getStringExtra(PRODUCT_COL_RELEASE);
         String comment = intent.getStringExtra(PRODUCT_COL_COMMENT);
+        final String imgUrl = intent.getStringExtra(PRODUCT_COL_IMGURL);
 
         setTitle(mediaType.substring(0,1).toUpperCase() + mediaType.substring(1) + " details");
 
-        ImageView imageViewProduct = findViewById(R.id.imageView_product);
+        imageViewProduct = findViewById(R.id.imageView_product);
         editTextTitle = findViewById(R.id.editText_title);
         editTextPrice = findViewById(R.id.editText_price);
         editTextRelease = findViewById(R.id.editText_release);
         editTextGenre = findViewById(R.id.editText_genre);
         editTextComment = findViewById(R.id.editText_comment);
+        editTextImgUrl = findViewById(R.id.editText_imgurl);
         Button buttonEdit = findViewById(R.id.button_update);
         Button buttonDelete = findViewById(R.id.button_delete);
 
-        //Add url as property to the product object and into the database and put a variable for it here - Test image for now
-        new DownloadImage(imageViewProduct).execute("https://thumbs.dreamstime.com/z/tv-test-image-card-rainbow-multi-color-bars-geometric-signals-retro-hardware-s-minimal-pop-art-print-suitable-89603635.jpg");
+
+        String extension = imgUrl.substring(imgUrl.lastIndexOf(".") + 1);
+        if(extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg") || extension.equals("gif")) {
+            new DownloadImage(imageViewProduct).execute(imgUrl);
+        }
 
         editTextTitle.setText(title);
         editTextPrice.setText(Integer.toString(price));
         editTextRelease.setText(release);
         editTextGenre.setText(genre);
         editTextComment.setText(comment);
+        editTextImgUrl.setText(imgUrl);
 
         switch(mediaType) {
             case BOOK_TABLE_NAME:
                 stub.setLayoutResource(R.layout.extras_book);
                 stub.inflate();
 
+                String bookAuthor = intent.getStringExtra(BOOK_COL_AUTHOR);
                 int bookPages = intent.getIntExtra(BOOK_COL_PAGES, -1);
                 String bookType = intent.getStringExtra(BOOK_COL_TYPE);
                 String bookPublisher = intent.getStringExtra(BOOK_COL_PUBLISHER);
                 String bookIsbn = intent.getStringExtra(BOOK_COL_ISBN);
 
+                editTextBookAuthor = findViewById(R.id.editText_bookAuthor);
                 editTextBookPages = findViewById(R.id.editText_bookPages);
                 editTextBookType = findViewById(R.id.editText_bookType);
                 editTextBookPublisher = findViewById(R.id.editText_bookPublisher);
                 editTextBookIsbn = findViewById(R.id.editText_bookIsbn);
 
+                editTextBookAuthor.setText(bookAuthor);
                 editTextBookPages.setText(Integer.toString(bookPages));
                 editTextBookType.setText(bookType);
                 editTextBookPublisher.setText(bookPublisher);
@@ -151,57 +165,85 @@ public class ProductDetailsActivity extends AppCompatActivity {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hasUpdated = true;
-                int updatedParentRows = dbHelper.updateProduct(
-                        productkey,
-                        editTextTitle.getText().toString(),
-                        Integer.parseInt(editTextPrice.getText().toString()),
-                        editTextRelease.getText().toString(),
-                        editTextGenre.getText().toString(),
-                        editTextComment.getText().toString()
-                );
-                if(updatedParentRows == 1) {
-                    int updatedChildRows = 0;
-                    switch(mediaType) {
+                int updatedParentRows = 0;
+                int updatedChildRows = 0;
+                if(editTextTitle.getText().toString().trim().length() > 0 && editTextPrice.getText().toString().length() > 0) {
+                    updatedParentRows = dbHelper.updateProduct(
+                            productkey,
+                            editTextTitle.getText().toString(),
+                            Integer.parseInt(editTextPrice.getText().toString()),
+                            editTextRelease.getText().toString(),
+                            editTextGenre.getText().toString(),
+                            editTextComment.getText().toString(),
+                            editTextImgUrl.getText().toString()
+                    );
+                    switch (mediaType) {
                         case BOOK_TABLE_NAME:
-                           updatedChildRows = dbHelper.updateBook(
-                                    productkey,
-                                    Integer.parseInt(editTextBookPages.getText().toString()),
-                                    editTextBookType.getText().toString(),
-                                    editTextBookPublisher.getText().toString(),
-                                    editTextBookIsbn.getText().toString()
-                            );
+                            if(editTextBookPages.getText().toString().length() > 0) {
+                                updatedChildRows = dbHelper.updateBook(
+                                        productkey,
+                                        editTextBookAuthor.getText().toString(),
+                                        Integer.parseInt(editTextBookPages.getText().toString()),
+                                        editTextBookType.getText().toString(),
+                                        editTextBookPublisher.getText().toString(),
+                                        editTextBookIsbn.getText().toString()
+                                );
+                            } else {
+                                Toast.makeText(getApplicationContext(), "A book needs at least a number of pages...", Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         case MOVIE_TABLE_NAME:
-                            updatedChildRows = dbHelper.updateMovie(
-                                    productkey,
-                                    Integer.parseInt(editTextMovieLength.getText().toString()),
-                                    Integer.parseInt(editTextMovieAge.getText().toString()),
-                                    editTextMovieCompany.getText().toString(),
-                                    Integer.parseInt(editTextMovieRating.getText().toString())
-                            );
+                            if(editTextMovieLength.getText().toString().length() > 0 && editTextMovieAge.getText().toString().length() > 0 && editTextMovieRating.getText().toString().length() > 0) {
+                                updatedChildRows = dbHelper.updateMovie(
+                                        productkey,
+                                        Integer.parseInt(editTextMovieLength.getText().toString()),
+                                        Integer.parseInt(editTextMovieAge.getText().toString()),
+                                        editTextMovieCompany.getText().toString(),
+                                        Integer.parseInt(editTextMovieRating.getText().toString())
+                                );
+                            } else {
+                                Toast.makeText(getApplicationContext(), "A movie needs at least a length, min age and rating...", Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         case SONG_TABLE_NAME:
-                            updatedChildRows = dbHelper.updateSong(
-                                    productkey,
-                                    Integer.parseInt(editTextSongLength.getText().toString()),
-                                    editTextSongLabel.getText().toString(),
-                                    editTextSongArtist.getText().toString()
-                            );
+                            if(editTextSongLength.getText().toString().length() > 0) {
+                                updatedChildRows = dbHelper.updateSong(
+                                        productkey,
+                                        Integer.parseInt(editTextSongLength.getText().toString()),
+                                        editTextSongLabel.getText().toString(),
+                                        editTextSongArtist.getText().toString()
+                                );
+                            } else {
+                                Toast.makeText(getApplicationContext(), "A song needs at least a length...", Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         case GAME_TABLE_NAME:
-                            updatedChildRows = dbHelper.updateGame(
-                                    productkey,
-                                    editTextGamePlatform.getText().toString(),
-                                    Integer.parseInt(editTextGameAge.getText().toString()),
-                                    editTextGameDeveloper.getText().toString(),
-                                    editTextGamePublisher.getText().toString()
-                            );
+                            if(editTextGameAge.getText().toString().length() > 0) {
+                                updatedChildRows = dbHelper.updateGame(
+                                        productkey,
+                                        editTextGamePlatform.getText().toString(),
+                                        Integer.parseInt(editTextGameAge.getText().toString()),
+                                        editTextGameDeveloper.getText().toString(),
+                                        editTextGamePublisher.getText().toString()
+                                );
+                            } else {
+                                Toast.makeText(getApplicationContext(), "A game needs at least a min age...", Toast.LENGTH_SHORT).show();
+                            }
                             break;
                     }
-                    if(updatedChildRows == 1) {
-                        Toast.makeText(getApplicationContext(), "Successfully updated this product", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "A product needs at least a title and a price...", Toast.LENGTH_SHORT).show();
+                }
+
+                if(updatedParentRows == 1 || updatedChildRows == 1) {
+                    hasUpdated = true;
+                    String extension = editTextImgUrl.getText().toString().substring(editTextImgUrl.getText().toString().lastIndexOf(".") + 1);
+                    if (extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg") || extension.equals("gif")) {
+                        new DownloadImage(imageViewProduct).execute(editTextImgUrl.getText().toString());
+                    } else {
+                        imageViewProduct.setImageResource(R.drawable.baseline_add_photo_alternate_black_48dp);
                     }
+                    Toast.makeText(getApplicationContext(), "This product has now been updated!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -266,8 +308,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         intent.putExtra(PRODUCT_COL_GENRE, editTextGenre.getText().toString());
         intent.putExtra(PRODUCT_COL_RELEASE, editTextRelease.getText().toString());
         intent.putExtra(PRODUCT_COL_COMMENT, editTextComment.getText().toString());
+        intent.putExtra(PRODUCT_COL_IMGURL, editTextImgUrl.getText().toString());
         switch(mediaType) {
             case BOOK_TABLE_NAME:
+                intent.putExtra(BOOK_COL_AUTHOR, editTextBookAuthor.getText().toString());
                 intent.putExtra(BOOK_COL_PAGES, Integer.parseInt(editTextBookPages.getText().toString()));
                 intent.putExtra(BOOK_COL_TYPE, editTextBookType.getText().toString());
                 intent.putExtra(BOOK_COL_PUBLISHER, editTextBookPublisher.getText().toString());

@@ -24,8 +24,6 @@ import com.github.a18antsv.medialibraryapp.object.Product;
 import com.github.a18antsv.medialibraryapp.object.Song;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
@@ -152,12 +150,15 @@ public class DeleteProductActivity extends AppCompatActivity {
                     cBook.getString(cBook.getColumnIndex(PRODUCT_COL_RELEASE)),
                     cBook.getString(cBook.getColumnIndex(PRODUCT_COL_GENRE)),
                     cBook.getString(cBook.getColumnIndex(PRODUCT_COL_COMMENT)),
+                    cBook.getString(cBook.getColumnIndex(PRODUCT_COL_IMGURL)),
+                    cBook.getString(cBook.getColumnIndex(BOOK_COL_AUTHOR)),
                     cBook.getString(cBook.getColumnIndex(BOOK_COL_PUBLISHER)),
                     cBook.getInt(cBook.getColumnIndex(BOOK_COL_PAGES)),
                     cBook.getString(cBook.getColumnIndex(BOOK_COL_TYPE)),
                     cBook.getString(cBook.getColumnIndex(BOOK_COL_ISBN))
             ));
         }
+        cBook.close();
     }
 
     private void getMovieData() {
@@ -175,12 +176,14 @@ public class DeleteProductActivity extends AppCompatActivity {
                     cMovie.getString(cMovie.getColumnIndex(PRODUCT_COL_RELEASE)),
                     cMovie.getString(cMovie.getColumnIndex(PRODUCT_COL_GENRE)),
                     cMovie.getString(cMovie.getColumnIndex(PRODUCT_COL_COMMENT)),
+                    cMovie.getString(cMovie.getColumnIndex(PRODUCT_COL_IMGURL)),
                     cMovie.getInt(cMovie.getColumnIndex(MOVIE_COL_LENGTH)),
                     cMovie.getInt(cMovie.getColumnIndex(MOVIE_COL_AGE)),
                     cMovie.getInt(cMovie.getColumnIndex(MOVIE_COL_RATING)),
                     cMovie.getString(cMovie.getColumnIndex(MOVIE_COL_COMPANY))
             ));
         }
+        cMovie.close();
     }
 
     private void getSongData() {
@@ -198,11 +201,13 @@ public class DeleteProductActivity extends AppCompatActivity {
                     cSong.getString(cSong.getColumnIndex(PRODUCT_COL_RELEASE)),
                     cSong.getString(cSong.getColumnIndex(PRODUCT_COL_GENRE)),
                     cSong.getString(cSong.getColumnIndex(PRODUCT_COL_COMMENT)),
+                    cSong.getString(cSong.getColumnIndex(PRODUCT_COL_IMGURL)),
                     cSong.getString(cSong.getColumnIndex(SONG_COL_LABEL)),
                     cSong.getString(cSong.getColumnIndex(SONG_COL_ARTIST)),
                     cSong.getInt(cSong.getColumnIndex(SONG_COL_LENGTH))
             ));
         }
+        cSong.close();
     }
 
     private void getGameData() {
@@ -220,11 +225,13 @@ public class DeleteProductActivity extends AppCompatActivity {
                     cGame.getString(cGame.getColumnIndex(PRODUCT_COL_RELEASE)),
                     cGame.getString(cGame.getColumnIndex(PRODUCT_COL_GENRE)),
                     cGame.getString(cGame.getColumnIndex(PRODUCT_COL_COMMENT)),
+                    cGame.getString(cGame.getColumnIndex(PRODUCT_COL_IMGURL)),
                     cGame.getString(cGame.getColumnIndex(GAME_COL_PLATFORM)),
                     cGame.getString(cGame.getColumnIndex(GAME_COL_PUBLISHER)),
                     cGame.getString(cGame.getColumnIndex(GAME_COL_DEVELOPER)),
                     cGame.getInt(cGame.getColumnIndex(GAME_COL_AGE))
             ));
         }
+        cGame.close();
     }
 }

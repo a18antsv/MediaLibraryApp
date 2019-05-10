@@ -108,6 +108,7 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_IMGURL)),
                             c2.getInt(c2.getColumnIndex(MOVIE_COL_LENGTH)),
                             c2.getInt(c2.getColumnIndex(MOVIE_COL_AGE)),
                             c2.getInt(c2.getColumnIndex(MOVIE_COL_RATING)),
@@ -122,6 +123,7 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_IMGURL)),
                             c2.getString(c2.getColumnIndex(SONG_COL_LABEL)),
                             c2.getString(c2.getColumnIndex(SONG_COL_ARTIST)),
                             c2.getInt(c2.getColumnIndex(SONG_COL_LENGTH))
@@ -135,6 +137,8 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_IMGURL)),
+                            c2.getString(c2.getColumnIndex(BOOK_COL_AUTHOR)),
                             c2.getString(c2.getColumnIndex(BOOK_COL_PUBLISHER)),
                             c2.getInt(c2.getColumnIndex(BOOK_COL_PAGES)),
                             c2.getString(c2.getColumnIndex(BOOK_COL_TYPE)),
@@ -149,13 +153,13 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_RELEASE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_GENRE)),
                             c2.getString(c2.getColumnIndex(PRODUCT_COL_COMMENT)),
+                            c2.getString(c2.getColumnIndex(PRODUCT_COL_IMGURL)),
                             c2.getString(c2.getColumnIndex(GAME_COL_PLATFORM)),
                             c2.getString(c2.getColumnIndex(GAME_COL_PUBLISHER)),
                             c2.getString(c2.getColumnIndex(GAME_COL_DEVELOPER)),
                             c2.getInt(c2.getColumnIndex(GAME_COL_AGE))
                     ));
                     break;
-
             }
             c2.close();
         }
@@ -177,10 +181,12 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                 intent.putExtra(PRODUCT_COL_RELEASE, p.getRelease());
                 intent.putExtra(PRODUCT_COL_GENRE, p.getGenre());
                 intent.putExtra(PRODUCT_COL_COMMENT, p.getComment());
+                intent.putExtra(PRODUCT_COL_IMGURL, p.getImgUrl());
 
                 if(p instanceof Book) {
                     Book b = (Book) p;
                     intent.putExtra("MEDIATYPE", BOOK_TABLE_NAME);
+                    intent.putExtra(BOOK_COL_AUTHOR, b.getAuthor());
                     intent.putExtra(BOOK_COL_PAGES, b.getPages());
                     intent.putExtra(BOOK_COL_TYPE, b.getType());
                     intent.putExtra(BOOK_COL_PUBLISHER, b.getPublisher());
@@ -239,21 +245,25 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
                 String newGenre = data.getStringExtra(PRODUCT_COL_GENRE);
                 String newRelease = data.getStringExtra(PRODUCT_COL_RELEASE);
                 String newComment = data.getStringExtra(PRODUCT_COL_COMMENT);
+                String newImgUrl = data.getStringExtra(PRODUCT_COL_IMGURL);
 
                 p.setTitle(newTitle);
                 p.setPrice(newPrice);
                 p.setGenre(newGenre);
                 p.setRelease(newRelease);
                 p.setComment(newComment);
+                p.setImgUrl(newImgUrl);
 
                 switch(mediaType) {
                     case BOOK_TABLE_NAME:
+                        String newBookAuthor = data.getStringExtra(BOOK_COL_AUTHOR);
                         int newBookPages = data.getIntExtra(BOOK_COL_PAGES, -1);
                         String newBookType = data.getStringExtra(BOOK_COL_TYPE);
                         String newBookPublisher = data.getStringExtra(BOOK_COL_PUBLISHER);
                         String newBookIsbn = data.getStringExtra(BOOK_COL_ISBN);
 
                         Book b = (Book) p;
+                        b.setAuthor(newBookAuthor);
                         b.setPages(newBookPages);
                         b.setType(newBookType);
                         b.setPublisher(newBookPublisher);

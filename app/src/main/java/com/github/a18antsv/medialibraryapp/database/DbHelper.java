@@ -23,9 +23,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_LIST_TABLE);
         db.execSQL(CREATE_PRODUCT_TABLE);
         db.execSQL(CREATE_LISTHASPRODUCT_TABLE);
-        db.execSQL(CREATE_PERSON_TABLE);
-        db.execSQL(CREATE_ROLE_TABLE);
-        db.execSQL(CREATE_PERSONROLE_TABLE);
         db.execSQL(CREATE_MOVIE_TABLE);
         db.execSQL(CREATE_BOOK_TABLE);
         db.execSQL(CREATE_GAME_TABLE);
@@ -37,9 +34,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_LIST_TABLE);
         db.execSQL(DROP_PRODUCT_TABLE);
         db.execSQL(DROP_LISTHASPRODUCT_TABLE);
-        db.execSQL(DROP_PERSON_TABLE);
-        db.execSQL(DROP_ROLE_TABLE);
-        db.execSQL(DROP_PERSONROLE_TABLE);
         db.execSQL(DROP_MOVIE_TABLE);
         db.execSQL(DROP_BOOK_TABLE);
         db.execSQL(DROP_GAME_TABLE);
@@ -64,7 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return (result == -1) ? false : true;
     }
 
-    public boolean insertIntoProduct(String title, int price, String release, String genre, String comment) {
+    public boolean insertIntoProduct(String title, int price, String release, String genre, String comment, String imgUrl) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PRODUCT_COL_TITLE, title);
@@ -72,14 +66,16 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(PRODUCT_COL_RELEASE, release);
         values.put(PRODUCT_COL_GENRE, genre);
         values.put(PRODUCT_COL_COMMENT, comment);
+        values.put(PRODUCT_COL_IMGURL, imgUrl);
         long result = db.insert(PRODUCT_TABLE_NAME, null, values);
         return (result == -1) ? false : true;
     }
 
-    public boolean insertIntoBook(int productkey, int pages, String type, String publisher, String isbn) {
+    public boolean insertIntoBook(int productkey, String author, int pages, String type, String publisher, String isbn) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(FOREIGNKEY_COL_PRODUCTKEY, productkey);
+        values.put(BOOK_COL_AUTHOR, author);
         values.put(BOOK_COL_PAGES, pages);
         values.put(BOOK_COL_TYPE, type);
         values.put(BOOK_COL_PUBLISHER, publisher);
@@ -160,7 +156,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public int updateProduct(int productkey, String title, int price, String release, String genre, String comment) {
+    public int updateProduct(int productkey, String title, int price, String release, String genre, String comment, String imgUrl) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PRODUCT_COL_TITLE, title);
@@ -168,12 +164,14 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(PRODUCT_COL_RELEASE, release);
         values.put(PRODUCT_COL_GENRE, genre);
         values.put(PRODUCT_COL_COMMENT, comment);
+        values.put(PRODUCT_COL_IMGURL, imgUrl);
         return db.update(PRODUCT_TABLE_NAME, values, PRODUCT_COL_KEY + "=?", new String[] {String.valueOf(productkey)});
     }
 
-    public int updateBook(int productkey, int pages, String type, String publisher, String isbn) {
+    public int updateBook(int productkey, String author, int pages, String type, String publisher, String isbn) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(BOOK_COL_AUTHOR, author);
         values.put(BOOK_COL_PAGES, pages);
         values.put(BOOK_COL_TYPE, type);
         values.put(BOOK_COL_PUBLISHER, publisher);

@@ -110,7 +110,7 @@ public class FragmentAddProduct extends Fragment {
 
     private List<Product> getProductListByType(String table) {
         List<Product> productList = new ArrayList<>();
-        productList.add(0, new Product(-1, "Select " + table, 0, "", "", ""));
+        productList.add(0, new Product(-1, "Select " + table, 0, "", "", "", ""));
 
         Cursor c = dbHelper.getData(
                 "SELECT * FROM " +
@@ -126,7 +126,8 @@ public class FragmentAddProduct extends Fragment {
                     c.getInt(c.getColumnIndex(PRODUCT_COL_PRICE)),
                     c.getString(c.getColumnIndex(PRODUCT_COL_RELEASE)),
                     c.getString(c.getColumnIndex(PRODUCT_COL_GENRE)),
-                    c.getString(c.getColumnIndex(PRODUCT_COL_COMMENT))
+                    c.getString(c.getColumnIndex(PRODUCT_COL_COMMENT)),
+                    c.getString(c.getColumnIndex(PRODUCT_COL_IMGURL))
             ));
         }
         c.close();

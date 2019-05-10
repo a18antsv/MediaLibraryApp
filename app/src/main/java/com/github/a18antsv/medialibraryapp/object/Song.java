@@ -5,8 +5,8 @@ public class Song extends Product {
     private String artist;
     private int length;
 
-    public Song(int productkey, String title, int price, String release, String genre, String comment, String label, String artist, int length) {
-        super(productkey, title, price, release, genre, comment);
+    public Song(int productkey, String title, int price, String release, String genre, String comment, String imgUrl, String label, String artist, int length) {
+        super(productkey, title, price, release, genre, comment, imgUrl);
         this.label = label;
         this.artist = artist;
         this.length = length;

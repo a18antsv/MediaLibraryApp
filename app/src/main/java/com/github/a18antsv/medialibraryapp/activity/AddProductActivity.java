@@ -99,11 +99,13 @@ public class AddProductActivity extends AppCompatActivity {
                 EditText editTextRelease = findViewById(R.id.editText_release);
                 EditText editTextGenre = findViewById(R.id.editText_genre);
                 EditText editTextComment = findViewById(R.id.editText_comment);
+                EditText editTextImgUrl = findViewById(R.id.editText_imgurl);
 
                 boolean insertedRow = false;
                 if(editTextTitle.getText().toString().trim().length() > 0 && editTextPrice.getText().toString().length() > 0) {
                     switch (spinner.getSelectedItem().toString()) {
                         case BOOK_TABLE_NAME:
+                            EditText editTextBookAuthor = findViewById(R.id.editText_bookAuthor);
                             EditText editTextBookPages = findViewById(R.id.editText_bookPages);
                             EditText editTextBookType = findViewById(R.id.editText_bookType);
                             EditText editTextBookPublisher = findViewById(R.id.editText_bookPublisher);
@@ -115,11 +117,13 @@ public class AddProductActivity extends AppCompatActivity {
                                         Integer.parseInt(editTextPrice.getText().toString()),
                                         editTextRelease.getText().toString(),
                                         editTextGenre.getText().toString(),
-                                        editTextComment.getText().toString()
+                                        editTextComment.getText().toString(),
+                                        editTextImgUrl.getText().toString()
                                 );
 
                                 insertedRow = dbHelper.insertIntoBook(
                                         productkey,
+                                        editTextBookAuthor.getText().toString(),
                                         Integer.parseInt(editTextBookPages.getText().toString()),
                                         editTextBookType.getText().toString(),
                                         editTextBookPublisher.getText().toString(),
@@ -127,6 +131,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 );
 
                                 Toast.makeText(getApplicationContext(), "Inserted new Book", Toast.LENGTH_SHORT).show();
+                                editTextBookAuthor.getText().clear();
                                 editTextBookPages.getText().clear();
                                 editTextBookType.getText().clear();
                                 editTextBookPublisher.getText().clear();
@@ -147,7 +152,8 @@ public class AddProductActivity extends AppCompatActivity {
                                         Integer.parseInt(editTextPrice.getText().toString()),
                                         editTextRelease.getText().toString(),
                                         editTextGenre.getText().toString(),
-                                        editTextComment.getText().toString()
+                                        editTextComment.getText().toString(),
+                                        editTextImgUrl.getText().toString()
                                 );
 
                                 insertedRow = dbHelper.insertIntoMovie(
@@ -178,7 +184,8 @@ public class AddProductActivity extends AppCompatActivity {
                                         Integer.parseInt(editTextPrice.getText().toString()),
                                         editTextRelease.getText().toString(),
                                         editTextGenre.getText().toString(),
-                                        editTextComment.getText().toString()
+                                        editTextComment.getText().toString(),
+                                        editTextImgUrl.getText().toString()
                                 );
 
                                 insertedRow = dbHelper.insertIntoSong(
@@ -208,7 +215,8 @@ public class AddProductActivity extends AppCompatActivity {
                                         Integer.parseInt(editTextPrice.getText().toString()),
                                         editTextRelease.getText().toString(),
                                         editTextGenre.getText().toString(),
-                                        editTextComment.getText().toString()
+                                        editTextComment.getText().toString(),
+                                        editTextImgUrl.getText().toString()
                                 );
 
                                 insertedRow = dbHelper.insertIntoGame(
@@ -236,6 +244,7 @@ public class AddProductActivity extends AppCompatActivity {
                         editTextRelease.getText().clear();
                         editTextGenre.getText().clear();
                         editTextComment.getText().clear();
+                        editTextImgUrl.getText().clear();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "A product needs at least a title and a price...", Toast.LENGTH_SHORT).show();
@@ -244,8 +253,8 @@ public class AddProductActivity extends AppCompatActivity {
         });
     }
 
-    private int insertProductGetKey(String title, int price, String release, String genre, String comment) {
-        dbHelper.insertIntoProduct(title, price, release, genre, comment);
+    public int insertProductGetKey(String title, int price, String release, String genre, String comment, String imgUrl) {
+        dbHelper.insertIntoProduct(title, price, release, genre, comment, imgUrl);
         Cursor c = dbHelper.getData(
                 "SELECT " + PRODUCT_COL_KEY +
                 " FROM " + PRODUCT_TABLE_NAME +

@@ -112,6 +112,18 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editText_imgurl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Image url:"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"/>
+            </android.support.design.widget.TextInputLayout>
+
             <Button
                 android:id="@+id/button_add_to_database"
                 android:layout_width="match_parent"
