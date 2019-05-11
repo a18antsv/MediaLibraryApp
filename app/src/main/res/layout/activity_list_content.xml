@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        app:srcCompat="@drawable/baseline_add_white_36dp"/>
 
     <FrameLayout
         android:id="@+id/fragment_addproduct_container"

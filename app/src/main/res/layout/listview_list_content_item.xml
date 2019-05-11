@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="Title"
-            android:textColor="@color/colorBlackText"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="16sp"
             android:textStyle="bold"
             android:ellipsize="end"
@@ -36,25 +36,25 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textview_genre"
+                android:id="@+id/textview_info1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Genre"
-                android:textColor="@color/colorBlackText"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp"
                 android:ellipsize="end"
                 android:maxLines="1"/>
 
             <TextView
-                android:id="@+id/textview_price"
+                android:id="@+id/textview_info2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="end"
                 android:maxLines="1"
                 android:text="Price"
-                android:textColor="@color/colorBlackText"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp"/>
 
         </LinearLayout>

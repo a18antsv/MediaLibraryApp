@@ -35,7 +35,6 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
     private DbHelper dbHelper;
     private ListContentAdapter adapter;
     private String listName;
-    private FloatingActionButton addProductFab;
     private FragmentAddProduct fragmentAddProduct;
 
     @Override
@@ -44,7 +43,7 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
         setContentView(R.layout.activity_list_content);
 
         listView = findViewById(R.id.listview_list_content);
-        addProductFab = findViewById(R.id.fab_add_product);
+        FloatingActionButton addProductFab = findViewById(R.id.fab_add_product);
         productList = new ArrayList<>();
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();

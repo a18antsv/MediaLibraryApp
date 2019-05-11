@@ -43,21 +43,27 @@ public class ListContentAdapter extends ArrayAdapter {
     private View createView(Product p, View convertView) {
         ImageView icon = convertView.findViewById(R.id.imageview_icon);
         TextView title = convertView.findViewById(R.id.textview_title);
-        TextView genre = convertView.findViewById(R.id.textview_genre);
-        TextView price = convertView.findViewById(R.id.textview_price);
+        TextView info1 = convertView.findViewById(R.id.textview_info1);
+        TextView info2 = convertView.findViewById(R.id.textview_info2);
 
+        title.setText(p.getTitle());
         if(p instanceof Book) {
+            info1.setText(((Book) p).getAuthor());
+            info2.setText(p.getGenre());
             icon.setImageResource(R.drawable.baseline_library_books_black_36dp);
         } else if(p instanceof Movie) {
+            info1.setText(p.getGenre());
+            info2.setText("$"+Integer.toString(p.getPrice()));
             icon.setImageResource(R.drawable.baseline_movie_black_36dp);
         } else if(p instanceof Song) {
+            info1.setText(((Song) p).getArtist());
+            info2.setText(p.getGenre());
             icon.setImageResource(R.drawable.baseline_music_note_black_36dp);
         } else if(p instanceof Game) {
+            info1.setText(p.getGenre());
+            info2.setText("$"+Integer.toString(p.getPrice()));
             icon.setImageResource(R.drawable.baseline_videogame_asset_black_36dp);
         }
-        title.setText(p.getTitle());
-        genre.setText(p.getGenre());
-        price.setText("$"+Integer.toString(p.getPrice()));
         return convertView;
     }
 }

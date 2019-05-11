@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:text="Listname"
-        android:textColor="@color/colorBlackText"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="16sp"
         android:textStyle="bold"/>
 </android.support.design.widget.CoordinatorLayout>

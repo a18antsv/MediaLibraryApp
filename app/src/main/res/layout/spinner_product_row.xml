@@ -21,7 +21,7 @@
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
             android:text="Title"
-            android:textColor="@color/colorBlackText"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -37,7 +37,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:maxLines="1"
                 android:text="Genre"
-                android:textColor="@color/colorBlackText"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp"/>
 
             <TextView
@@ -48,7 +48,7 @@
                 android:gravity="end"
                 android:maxLines="1"
                 android:text="Price"
-                android:textColor="@color/colorBlackText"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp"/>
 
         </LinearLayout>

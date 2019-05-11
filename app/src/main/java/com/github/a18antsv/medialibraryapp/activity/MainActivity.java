@@ -41,20 +41,16 @@ import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 public class MainActivity extends AppCompatActivity implements FragmentAddList.onDataPassListener, FragmentGetDataByExampleList.onListExamplePassListener {
     private List<String> lists;
     private DbHelper dbHelper;
-    private ListView listView;
     private ArrayAdapter adapter;
-    private FloatingActionButton addListFab;
-    private FragmentAddList fragmentAddList;
-    private FragmentGetDataByExampleList fragmentGetDataByExampleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.listview_lists);
+        ListView listView = findViewById(R.id.listview_lists);
         lists = new ArrayList<>();
-        addListFab = findViewById(R.id.fab_add_list);
+        FloatingActionButton addListFab = findViewById(R.id.fab_add_list);
 
         dbHelper = new DbHelper(this);
         dbHelper.getWritableDatabase();
@@ -81,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
             @Override
             public void onClick(View view) {
                 if(findViewById(R.id.fragment_addlist_container) != null) {
-                    fragmentAddList = new FragmentAddList();
+                    FragmentAddList fragmentAddList = new FragmentAddList();
                     Bundle args = new Bundle();
                     args.putString("ACTION", "add");
                     fragmentAddList.setArguments(args);
@@ -110,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                 startActivity(intent2);
                 break;
             case R.id.option_get_example_data:
-                fragmentGetDataByExampleList = new FragmentGetDataByExampleList();
+                FragmentGetDataByExampleList fragmentGetDataByExampleList = new FragmentGetDataByExampleList();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_addlist_container, fragmentGetDataByExampleList).commit();
                 break;
@@ -156,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
         switch(item.getItemId()) {
             case R.id.option_edit:
                 if(findViewById(R.id.fragment_addlist_container) != null) {
-                    fragmentAddList = new FragmentAddList();
+                    FragmentAddList fragmentAddList = new FragmentAddList();
                     Bundle args = new Bundle();
                     args.putString("ACTION", "edit");
                     args.putString("LISTNAME", listName);
@@ -195,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
     @Override
     public void onDataPass(String action, String data, String listName, int itemPos) {
         if(!dbHelper.duplicateData(LIST_TABLE_NAME, LIST_COL_NAME, data)) {
-            if(action == "add") {
+            if(action.equals("add")) {
                 if(dbHelper.insertList(data)) {
                     lists.add(data);
                     adapter.notifyDataSetChanged();
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                 } else {
                     Toast.makeText(getApplicationContext(), "No rows affected", Toast.LENGTH_SHORT).show();
                 }
-            } else if(action == "edit") {
+            } else if(action.equals("edit")) {
                 int updatedRows = dbHelper.updateList(data, listName);
                 if(updatedRows > 0) {
                     lists.set(itemPos, data);
@@ -232,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
             BufferedReader reader = null;
 
             // Will contain the raw JSON response as a Java string.
-            String jsonStr = null;
+            String jsonStr;
             String newListName = params[0];
 
             try {
@@ -318,14 +314,19 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
 
                         int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
                         if(duplicateProductKey != -1) {
-                            if(category.equals("book")) {
-                                dbHelper.deleteProduct(duplicateProductKey, BOOK_TABLE_NAME, true);
-                            } else if(category.equals("movie")) {
-                                dbHelper.deleteProduct(duplicateProductKey, MOVIE_TABLE_NAME, true);
-                            } else if(category.equals("song")) {
-                                dbHelper.deleteProduct(duplicateProductKey, SONG_TABLE_NAME, true);
-                            } else if(category.equals("game")) {
-                                dbHelper.deleteProduct(duplicateProductKey, GAME_TABLE_NAME, true);
+                            switch(category) {
+                                case "book":
+                                    dbHelper.deleteProduct(duplicateProductKey, BOOK_TABLE_NAME, true);
+                                    break;
+                                case "movie":
+                                    dbHelper.deleteProduct(duplicateProductKey, MOVIE_TABLE_NAME, true);
+                                    break;
+                                case "song":
+                                    dbHelper.deleteProduct(duplicateProductKey, SONG_TABLE_NAME, true);
+                                    break;
+                                case "game":
+                                    dbHelper.deleteProduct(duplicateProductKey, GAME_TABLE_NAME, true);
+                                    break;
                             }
                             dbHelper.deleteProduct(duplicateProductKey, PRODUCT_TABLE_NAME, false);
                         }
@@ -360,36 +361,47 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                         int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
                         if(duplicateProductKey == -1) {
                             int productkey = insertProductGetKey(title, price, release, genre, comment, img);
-                            if(category.equals("book")) {
-                                dbHelper.insertIntoBook(productkey,auxData.getString("author"),auxData.getInt("pages"),auxData.getString("type"),auxData.getString("publisher"),auxData.getString("isbn"));
-                                dbHelper.insertIntoList(productkey, exampleLists[1]);
-                            } else if(category.equals("movie")) {
-                                dbHelper.insertIntoMovie(productkey,auxData.getInt("length"),auxData.getInt("age"),auxData.getString("company"),auxData.getInt("rating"));
-                                dbHelper.insertIntoList(productkey, exampleLists[2]);
-                            } else if(category.equals("song")) {
-                                dbHelper.insertIntoSong(productkey,auxData.getInt("length"),auxData.getString("label"),auxData.getString("artist"));
-                                dbHelper.insertIntoList(productkey, exampleLists[3]);
-                            } else if(category.equals("game")) {
-                                dbHelper.insertIntoGame(productkey,auxData.getString("platform"),auxData.getInt("age"),auxData.getString("developer"),auxData.getString("publisher"));
-                                dbHelper.insertIntoList(productkey, exampleLists[4]);
+
+                            switch(category) {
+                                case "book":
+                                    dbHelper.insertIntoBook(productkey,auxData.getString("author"),auxData.getInt("pages"),auxData.getString("type"),auxData.getString("publisher"),auxData.getString("isbn"));
+                                    dbHelper.insertIntoList(productkey, exampleLists[1]);
+                                    break;
+                                case "movie":
+                                    dbHelper.insertIntoMovie(productkey,auxData.getInt("length"),auxData.getInt("age"),auxData.getString("company"),auxData.getInt("rating"));
+                                    dbHelper.insertIntoList(productkey, exampleLists[2]);
+                                    break;
+                                case "song":
+                                    dbHelper.insertIntoSong(productkey,auxData.getInt("length"),auxData.getString("label"),auxData.getString("artist"));
+                                    dbHelper.insertIntoList(productkey, exampleLists[3]);
+                                    break;
+                                case "game":
+                                    dbHelper.insertIntoGame(productkey,auxData.getString("platform"),auxData.getInt("age"),auxData.getString("developer"),auxData.getString("publisher"));
+                                    dbHelper.insertIntoList(productkey, exampleLists[4]);
+                                    break;
                             }
                         } else {
-                            if(category.equals("book")) {
-                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[1])) {
-                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[1]);
-                                }
-                            } else if(category.equals("movie")) {
-                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[2])) {
-                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[2]);
-                                }
-                            } else if(category.equals("song")) {
-                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[3])) {
-                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[3]);
-                                }
-                            } else if(category.equals("game")) {
-                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[4])) {
-                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[4]);
-                                }
+                            switch(category) {
+                                case "book":
+                                    if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[1])) {
+                                        dbHelper.insertIntoList(duplicateProductKey, exampleLists[1]);
+                                    }
+                                    break;
+                                case "movie":
+                                    if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[2])) {
+                                        dbHelper.insertIntoList(duplicateProductKey, exampleLists[2]);
+                                    }
+                                    break;
+                                case "song":
+                                    if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[3])) {
+                                        dbHelper.insertIntoList(duplicateProductKey, exampleLists[3]);
+                                    }
+                                    break;
+                                case "game":
+                                    if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[4])) {
+                                        dbHelper.insertIntoList(duplicateProductKey, exampleLists[4]);
+                                    }
+                                    break;
                             }
                         }
                     }
