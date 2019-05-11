@@ -36,9 +36,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.category;
-import static android.R.attr.data;
-import static android.R.attr.inset;
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class MainActivity extends AppCompatActivity implements FragmentAddList.onDataPassListener, FragmentGetDataByExampleList.onListExamplePassListener {
@@ -95,21 +92,6 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
         });
     }
 
-    public int insertProductGetKey(String title, int price, String release, String genre, String comment, String imgUrl) {
-        dbHelper.insertIntoProduct(title, price, release, genre, comment, imgUrl);
-        Cursor c = dbHelper.getData(
-                "SELECT " + PRODUCT_COL_KEY +
-                        " FROM " + PRODUCT_TABLE_NAME +
-                        " ORDER BY " + PRODUCT_COL_KEY + " DESC" +
-                        " LIMIT 1",
-                null
-        );
-        c.moveToFirst();
-        int productkey = c.getInt(c.getColumnIndex(PRODUCT_COL_KEY));
-        c.close();
-        return productkey;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -131,6 +113,24 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                 fragmentGetDataByExampleList = new FragmentGetDataByExampleList();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_addlist_container, fragmentGetDataByExampleList).commit();
+                break;
+            case R.id.option_delete_example_data:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Are you sure?");
+                builder.setMessage("All example data coming from the web service will be deleted.");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new FetchData().execute("delete");
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.create().show();
                 break;
             case R.id.option_about:
 
@@ -296,7 +296,42 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
 
                 JSONArray products = new JSONArray(jsonStr);
 
-                if(listName.equals(exampleLists[0])) {
+                if(listName.equals("delete")) {
+                    for(int i = 1; i < exampleLists.length; i++) {
+                        if(dbHelper.duplicateData(LIST_TABLE_NAME, LIST_COL_NAME, exampleLists[i])) {
+                            dbHelper.deleteList(exampleLists[i]);
+                            lists.remove(exampleLists[i]);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                    for(int i = 0; i < products.length(); i++) {
+                        JSONObject product = products.getJSONObject(i);
+                        JSONObject auxData = new JSONObject(product.getString("auxdata"));
+
+                        String category = product.getString("category");
+                        String title = auxData.getString("title");
+                        int price = auxData.getInt("price");
+                        String release = auxData.getString("release");
+                        String genre =  auxData.getString("genre");
+                        String comment =  auxData.getString("comment");
+                        String img =  auxData.getString("img");
+
+                        int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                        if(duplicateProductKey != -1) {
+                            if(category.equals("book")) {
+                                dbHelper.deleteProduct(duplicateProductKey, BOOK_TABLE_NAME, true);
+                            } else if(category.equals("movie")) {
+                                dbHelper.deleteProduct(duplicateProductKey, MOVIE_TABLE_NAME, true);
+                            } else if(category.equals("song")) {
+                                dbHelper.deleteProduct(duplicateProductKey, SONG_TABLE_NAME, true);
+                            } else if(category.equals("game")) {
+                                dbHelper.deleteProduct(duplicateProductKey, GAME_TABLE_NAME, true);
+                            }
+                            dbHelper.deleteProduct(duplicateProductKey, PRODUCT_TABLE_NAME, false);
+                        }
+                    }
+                    Toast.makeText(MainActivity.this, "Database emptied of all example data and lists.", Toast.LENGTH_SHORT).show();
+                } else if(listName.equals(exampleLists[0])) {
                     StringBuilder stringBuilder = new StringBuilder();
                     for(int i = 1; i < exampleLists.length; i++) {
                         if(!dbHelper.duplicateData(LIST_TABLE_NAME, LIST_COL_NAME, exampleLists[i])) {
@@ -305,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                             adapter.notifyDataSetChanged();
                             stringBuilder.append(exampleLists[i] + " created!\n");
                         } else {
-                            stringBuilder.append(exampleLists[i] + " already exists...\n");
+                            stringBuilder.append(exampleLists[i] + " already exists... New data that doesn't exist will still be added\n");
                         }
                     }
                     Toast.makeText(getApplicationContext(), stringBuilder.toString(), Toast.LENGTH_SHORT).show();
@@ -315,92 +350,139 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                         JSONObject auxData = new JSONObject(product.getString("auxdata"));
 
                         String category = product.getString("category");
+                        String title = auxData.getString("title");
+                        int price = auxData.getInt("price");
+                        String release = auxData.getString("release");
+                        String genre =  auxData.getString("genre");
+                        String comment =  auxData.getString("comment");
+                        String img =  auxData.getString("img");
 
-                        if(category.equals("book")) {
-                            int productkey = insertProductGetKey(
-                                    auxData.getString("title"),
-                                    auxData.getInt("price"),
-                                    auxData.getString("release"),
-                                    auxData.getString("genre"),
-                                    auxData.getString("comment"),
-                                    auxData.getString("img")
-                            );
-                            dbHelper.insertIntoBook(
-                                    productkey,
-                                    auxData.getString("author"),
-                                    auxData.getInt("pages"),
-                                    auxData.getString("type"),
-                                    auxData.getString("publisher"),
-                                    auxData.getString("isbn")
-
-                            );
-                            dbHelper.insertIntoList(productkey, exampleLists[1]);
-                        } else if(category.equals("movie")) {
-                            int productkey = insertProductGetKey(
-                                    auxData.getString("title"),
-                                    auxData.getInt("price"),
-                                    auxData.getString("release"),
-                                    auxData.getString("genre"),
-                                    auxData.getString("comment"),
-                                    auxData.getString("img")
-                            );
-                            dbHelper.insertIntoMovie(
-                                    productkey,
-                                    auxData.getInt("length"),
-                                    auxData.getInt("age"),
-                                    auxData.getString("company"),
-                                    auxData.getInt("rating")
-                            );
-                            dbHelper.insertIntoList(productkey, exampleLists[2]);
-                        } else if(category.equals("song")) {
-                            int productkey = insertProductGetKey(
-                                    auxData.getString("title"),
-                                    auxData.getInt("price"),
-                                    auxData.getString("release"),
-                                    auxData.getString("genre"),
-                                    auxData.getString("comment"),
-                                    auxData.getString("img")
-                            );
-                            dbHelper.insertIntoSong(
-                                    productkey,
-                                    auxData.getInt("length"),
-                                    auxData.getString("label"),
-                                    auxData.getString("artist")
-                            );
-                            dbHelper.insertIntoList(productkey, exampleLists[3]);
-                        } else if(category.equals("game")) {
-                            int productkey = insertProductGetKey(
-                                    auxData.getString("title"),
-                                    auxData.getInt("price"),
-                                    auxData.getString("release"),
-                                    auxData.getString("genre"),
-                                    auxData.getString("comment"),
-                                    auxData.getString("img")
-                            );
-                            dbHelper.insertIntoGame(
-                                    productkey,
-                                    auxData.getString("platform"),
-                                    auxData.getInt("age"),
-                                    auxData.getString("developer"),
-                                    auxData.getString("publisher")
-                            );
-                            dbHelper.insertIntoList(productkey, exampleLists[4]);
+                        int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                        if(duplicateProductKey == -1) {
+                            int productkey = insertProductGetKey(title, price, release, genre, comment, img);
+                            if(category.equals("book")) {
+                                dbHelper.insertIntoBook(productkey,auxData.getString("author"),auxData.getInt("pages"),auxData.getString("type"),auxData.getString("publisher"),auxData.getString("isbn"));
+                                dbHelper.insertIntoList(productkey, exampleLists[1]);
+                            } else if(category.equals("movie")) {
+                                dbHelper.insertIntoMovie(productkey,auxData.getInt("length"),auxData.getInt("age"),auxData.getString("company"),auxData.getInt("rating"));
+                                dbHelper.insertIntoList(productkey, exampleLists[2]);
+                            } else if(category.equals("song")) {
+                                dbHelper.insertIntoSong(productkey,auxData.getInt("length"),auxData.getString("label"),auxData.getString("artist"));
+                                dbHelper.insertIntoList(productkey, exampleLists[3]);
+                            } else if(category.equals("game")) {
+                                dbHelper.insertIntoGame(productkey,auxData.getString("platform"),auxData.getInt("age"),auxData.getString("developer"),auxData.getString("publisher"));
+                                dbHelper.insertIntoList(productkey, exampleLists[4]);
+                            }
+                        } else {
+                            if(category.equals("book")) {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[1])) {
+                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[1]);
+                                }
+                            } else if(category.equals("movie")) {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[2])) {
+                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[2]);
+                                }
+                            } else if(category.equals("song")) {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[3])) {
+                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[3]);
+                                }
+                            } else if(category.equals("game")) {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, exampleLists[4])) {
+                                    dbHelper.insertIntoList(duplicateProductKey, exampleLists[4]);
+                                }
+                            }
                         }
                     }
-                } else if(listName.equals(exampleLists[1])) {
+                } else {
+                    createListIfNotExists(listName);
+                    for(int i = 0; i < products.length(); i++) {
+                        JSONObject product = products.getJSONObject(i);
+                        JSONObject auxData = new JSONObject(product.getString("auxdata"));
 
-                } else if(listName.equals(exampleLists[2])) {
+                        String category = product.getString("category");
+                        String title = auxData.getString("title");
+                        int price = auxData.getInt("price");
+                        String release = auxData.getString("release");
+                        String genre =  auxData.getString("genre");
+                        String comment =  auxData.getString("comment");
+                        String img =  auxData.getString("img");
 
-                } else if(listName.equals(exampleLists[3])) {
-
-                } else if(listName.equals(exampleLists[4])) {
-
+                        if(category.equals("book") && listName.equals(exampleLists[1])) {
+                            int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                            if(duplicateProductKey == -1) {
+                                int productkey = insertProductGetKey(title, price, release, genre, comment, img);
+                                dbHelper.insertIntoBook(productkey, auxData.getString("author"), auxData.getInt("pages"), auxData.getString("type"), auxData.getString("publisher"), auxData.getString("isbn"));
+                                dbHelper.insertIntoList(productkey, listName);
+                            } else {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, listName)) {
+                                    dbHelper.insertIntoList(duplicateProductKey, listName);
+                                }
+                            }
+                        } else if(category.equals("movie") && listName.equals(exampleLists[2])) {
+                            int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                            if(duplicateProductKey == -1) {
+                                int productkey = insertProductGetKey(title, price, release, genre, comment, img);
+                                dbHelper.insertIntoMovie(productkey,auxData.getInt("length"),auxData.getInt("age"),auxData.getString("company"),auxData.getInt("rating"));
+                                dbHelper.insertIntoList(productkey, listName);
+                            } else {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, listName)) {
+                                    dbHelper.insertIntoList(duplicateProductKey, listName);
+                                }
+                            }
+                        } else if(category.equals("song") && listName.equals(exampleLists[3])) {
+                            int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                            if(duplicateProductKey == -1) {
+                                int productkey = insertProductGetKey(title, price, release, genre, comment, img);
+                                dbHelper.insertIntoSong(productkey,auxData.getInt("length"),auxData.getString("label"),auxData.getString("artist"));
+                                dbHelper.insertIntoList(productkey, listName);
+                            } else {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, listName)) {
+                                    dbHelper.insertIntoList(duplicateProductKey, listName);
+                                }
+                            }
+                        } else if(category.equals("game") && listName.equals(exampleLists[4])) {
+                            int duplicateProductKey = dbHelper.duplicateProduct(title,price,release,genre,comment,img);
+                            if(duplicateProductKey == -1) {
+                                int productkey = insertProductGetKey(title, price, release, genre, comment, img);
+                                dbHelper.insertIntoGame(productkey,auxData.getString("platform"),auxData.getInt("age"),auxData.getString("developer"),auxData.getString("publisher"));
+                                dbHelper.insertIntoList(productkey, listName);
+                            } else {
+                                if(!dbHelper.duplicateProductInList(duplicateProductKey, listName)) {
+                                    dbHelper.insertIntoList(duplicateProductKey, listName);
+                                }
+                            }
+                        }
+                    }
                 }
-
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
+        }
 
+        private void createListIfNotExists(String listName) {
+            if(!dbHelper.duplicateData(LIST_TABLE_NAME, LIST_COL_NAME, listName)) {
+                dbHelper.insertList(listName);
+                lists.add(listName);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), listName + " created!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), listName + " already exists...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private int insertProductGetKey(String title, int price, String release, String genre, String comment, String imgUrl) {
+            dbHelper.insertIntoProduct(title, price, release, genre, comment, imgUrl);
+            Cursor c = dbHelper.getData(
+                    "SELECT " + PRODUCT_COL_KEY +
+                    " FROM " + PRODUCT_TABLE_NAME +
+                    " ORDER BY " + PRODUCT_COL_KEY + " DESC" +
+                    " LIMIT 1",
+                    null
+            );
+            c.moveToFirst();
+            int productkey = c.getInt(c.getColumnIndex(PRODUCT_COL_KEY));
+            c.close();
+            return productkey;
         }
     }
 }

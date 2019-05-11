@@ -326,7 +326,7 @@ public class ListContentActivity extends AppCompatActivity implements FragmentAd
             case R.id.option_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Are you sure?");
-                builder.setMessage("This list and all its content will be deleted.");
+                builder.setMessage(p.getTitle() + " will be deleted from " + listName + " but still be available in the database for future use.");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

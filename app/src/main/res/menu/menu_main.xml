@@ -20,6 +20,12 @@
         android:title="@string/get_example_data"
         app:showAsAction="never"/>
 
+
+    <item
+        android:id="@+id/option_delete_example_data"
+        android:title="@string/delete_example_data"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/option_about"
         android:title="@string/about"

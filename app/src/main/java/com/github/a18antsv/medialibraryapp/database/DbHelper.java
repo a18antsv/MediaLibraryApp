@@ -219,6 +219,46 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean duplicateProductInList(int productkey, String listname) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM " + LISTHASPRODUCT_TABLE_NAME + " WHERE " +
+                FOREIGNKEY_COL_PRODUCTKEY + "=? AND " +
+                FOREIGNKEY_COL_LISTNAME + "=?",
+                new String[] {String.valueOf(productkey), listname}
+        );
+        if(c.getCount() <= 0) {
+            return false;
+        } else {
+            c.close();
+            return true;
+        }
+    }
+
+    public int duplicateProduct(String title, int price, String release, String genre, String comment, String imgUrl) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM " + PRODUCT_TABLE_NAME + " WHERE " +
+                PRODUCT_COL_TITLE + "=? AND " +
+                PRODUCT_COL_PRICE + "=? AND " +
+                PRODUCT_COL_RELEASE + "=? AND " +
+                PRODUCT_COL_GENRE + "=? AND " +
+                PRODUCT_COL_COMMENT + "=? AND " +
+                PRODUCT_COL_IMGURL + "=?",
+                new String[] {title, String.valueOf(price), release, genre, comment, imgUrl}
+        );
+        if(c.getCount() <= 0) {
+            c.close();
+            return -1;
+        } else {
+            c.moveToFirst();
+            int productkey = c.getInt(c.getColumnIndex(PRODUCT_COL_KEY));
+            c.close();
+            return productkey;
+
+        }
+    }
+
 
     public Cursor getData(String query, String[] selectionArgs) {
         SQLiteDatabase db = this.getReadableDatabase();

@@ -13,6 +13,7 @@
     <string name="sort_by_movie">Sort by Movie</string>
     <string name="sort_by_song">Sort by Song</string>
     <string name="sort_by_game">Sort by Game</string>
+    <string name="delete_example_data">Delete example data</string>
 
     <string-array name="example_lists">
         <item>All below</item>

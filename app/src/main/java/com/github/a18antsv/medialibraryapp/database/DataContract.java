@@ -3,7 +3,6 @@ package com.github.a18antsv.medialibraryapp.database;
 import android.provider.BaseColumns;
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
-
 public class DataContract {
 
     public static final String CREATE_LIST_TABLE = "CREATE TABLE IF NOT EXISTS " +

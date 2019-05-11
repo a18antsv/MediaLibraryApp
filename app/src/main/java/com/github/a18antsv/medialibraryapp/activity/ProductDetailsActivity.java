@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -17,9 +16,6 @@ import android.widget.Toast;
 import com.github.a18antsv.medialibraryapp.DownloadImage;
 import com.github.a18antsv.medialibraryapp.R;
 import com.github.a18antsv.medialibraryapp.database.DbHelper;
-
-import java.net.URL;
-import java.net.URLConnection;
 
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
