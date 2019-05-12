@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.github.a18antsv.medialibraryapp.R;
 import com.github.a18antsv.medialibraryapp.database.DbHelper;
+import com.github.a18antsv.medialibraryapp.fragment.FragmentAboutApp;
 import com.github.a18antsv.medialibraryapp.fragment.FragmentAddList;
 import com.github.a18antsv.medialibraryapp.fragment.FragmentGetDataByExampleList;
 
@@ -34,6 +35,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
@@ -129,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements FragmentAddList.o
                 builder.create().show();
                 break;
             case R.id.option_about:
-
+                FragmentAboutApp fragmentAboutApp = new FragmentAboutApp();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_addlist_container, fragmentAboutApp).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);

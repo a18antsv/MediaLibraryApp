@@ -23,7 +23,7 @@ import java.util.List;
 import static com.github.a18antsv.medialibraryapp.database.DataContract.Entry.*;
 
 public class FragmentAddProduct extends Fragment {
-    private TextView textViewClose, textViewInfo;
+    private TextView textViewClose;
     private onDataPassListener dataPasser;
     private Spinner spinnerBooks, spinnerMovies, spinnerSongs, spinnerGames;
     private Button buttonAddProduct;
@@ -40,7 +40,6 @@ public class FragmentAddProduct extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_product, container, false);
 
         textViewClose = v.findViewById(R.id.textview_close_fragment);
-        textViewInfo = v.findViewById(R.id.textview_info);
         spinnerBooks = v.findViewById(R.id.spinner_books);
         spinnerMovies = v.findViewById(R.id.spinner_movies);
         spinnerSongs = v.findViewById(R.id.spinner_songs);

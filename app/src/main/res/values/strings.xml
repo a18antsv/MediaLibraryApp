@@ -4,18 +4,24 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="add">Add</string>
-    <string name="about">About</string>
+    <string name="about">About app</string>
     <string name="add_to_database">Add to database</string>
     <string name="delete_from_database">Delete from database</string>
     <string name="get_example_data">Get example data</string>
     <string name="add_new_list">Add new list</string>
     <string name="add_product_to_list">Add product to list</string>
-    <string name="get_data_example_list">Get data by example list</string>
+    <string name="get_data_example_list">Get example list</string>
     <string name="sort_by_book">Sort by Book</string>
     <string name="sort_by_movie">Sort by Movie</string>
     <string name="sort_by_song">Sort by Song</string>
     <string name="sort_by_game">Sort by Game</string>
     <string name="delete_example_data">Delete example data</string>
+
+    <string name="about_paragraph_1">MediaLibraryApp was created by Anton Svensson, a student at the University of Skövde, in May of 2019.</string>
+    <string name="about_paragraph_2">Different types of media is a huge part of today\'s society. It can sometimes be a problem keeping everything in your head; all the movies you want to watch, all the songs you want to listen to, all the books you want to read or all the games you want to play. It can sometimes also be a struggle remembering what you have actually watched, listened to, read or played.</string>
+    <string name="about_paragraph_3">This app was created to solve some of these problems. The target group of people is therefore people who have a hard time keeping up with everything media related or simply wants good structure in his/her media consumption.</string>
+    <string name="about_paragraph_4">This app lets the user create their own lists which can be filled with different content (books, movies, songs and games). This is a good way to structure media in a way that fits the user. The user could for example create a list containing all movies he/she wants to watch and another list containing all movies he/she already watched.</string>
+    <string name="about_paragraph_5">1: Create lists in the main activity by clicking the floating action button and entering a name.\n\n2: Add content to the database by clicking "Add to database" in the options menu, choose a media type and enter information.\n\n3: Click on a list you created to navigate inside the list and show all its content.\n\n4: Add content to the chosen list by clicking the floating action button and choosing from the content available in the 4 spinners (data from the database that can be reused in any list, one spinner per media type).\n\n5: Click on a product in the chosen list to see all information about it, edit the information or delete the product from the list you navigated from.\n\n6: You can also delete products from a list by pressing on them for long to bring up a context menu and choose delete. Same for lists; in the context menu, delete the list or edit its name.\n\n7: Deleting a product from a list or deleting a list won\'t completely delete an item, items are still available in the database for future use until they are completely removed by choosing the menu option Delete from database where any item can be deleted with a simple click and confirmation.\n\n8: Example data is available to download and store by choosing Get example data in the options menu; this includes 4 different lists, one per media type. You get the option to download all or just one of them at a time and your previous choice will be saved and shown next time. As a lot of content will be downloaded and stored in the database you get the option to delete all example data with one click which will delete all example data lists and all data that has not been modified.</string>
 
     <string-array name="example_lists">
         <item>All below</item>

@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@color/colorPrimary"
             android:paddingEnd="4dp"
             android:paddingStart="4dp">
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_new_list"
                 android:textColor="@color/colorWhite"
-                android:textSize="24sp"/>
+                android:textSize="28sp"/>
 
             <TextView
                 android:id="@+id/textview_close_fragment"
@@ -37,7 +37,7 @@
                 android:layout_alignParentEnd="true"
                 android:text="X"
                 android:textColor="@color/colorWhite"
-                android:textSize="24sp"/>
+                android:textSize="30sp"/>
         </RelativeLayout>
 
         <LinearLayout
