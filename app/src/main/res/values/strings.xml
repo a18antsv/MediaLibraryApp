@@ -7,6 +7,8 @@
     <string name="about">About app</string>
     <string name="add_to_database">Add to database</string>
     <string name="delete_from_database">Delete from database</string>
+    <string name="list_content">List content</string>
+    <string name="product_details">Product details</string>
     <string name="get_example_data">Get example data</string>
     <string name="add_new_list">Add new list</string>
     <string name="add_product_to_list">Add product to list</string>

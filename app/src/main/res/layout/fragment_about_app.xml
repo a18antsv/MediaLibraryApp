@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#95000000"
@@ -53,11 +54,12 @@
                 android:weightSum="1">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
-                    app:srcCompat="@mipmap/ic_launcher"/>
+                    android:contentDescription="App icon"
+                    app:srcCompat="@drawable/media_library_app"/>
 
                 <TextView
                     android:layout_width="match_parent"
